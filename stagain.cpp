@@ -3,128 +3,161 @@
 // Version 2.4		$Date: 2006/11/13 09:08:27 $
 //
 // Category     : VST 2.x SDK Samples
-// Filename     : stagain.cpp
-// Created by   : Dan Roth
-// Description  : Stereo plugin which applies Stereo Gain [-oo, 0dB]
+// Filename     : again.cpp
+// Created by   : Steinberg Media Technologies
+// Description  : Stereo plugin which applies Gain [-oo, 0dB]
 //
 // © 2006, Steinberg Media Technologies, All Rights Reserved
 //-------------------------------------------------------------------------------------------------------
 
-#include "again.h"
+#include "stagain.h"
 
 //-------------------------------------------------------------------------------------------------------
-AudioEffect* createEffectInstance (audioMasterCallback audioMaster)
+AudioEffect* createEffectInstance(audioMasterCallback audioMaster)
 {
-	return new AGain (audioMaster);
+	return new StaGain(audioMaster);
 }
 
 //-------------------------------------------------------------------------------------------------------
-AGain::AGain (audioMasterCallback audioMaster)
-: AudioEffectX (audioMaster, 1, 1)	// 1 program, 1 parameter only
+StaGain::StaGain(audioMasterCallback audioMaster)
+	: AudioEffectX(audioMaster, 1, knumparams)	// 1 program, 2 parameter only
 {
-	setNumInputs (2);		// stereo in
-	setNumOutputs (2);		// stereo out
-	setUniqueID ('STGa');	// identify 
-	canProcessReplacing ();	// supports replacing output
-	canDoubleReplacing ();	// supports double precision processing
+	setNumInputs(2);		// stereo in
+	setNumOutputs(2);		// stereo out
+	setUniqueID('StGa');	// identify
+	canProcessReplacing();	// supports replacing output
+	canDoubleReplacing();	// supports double precision processing
 
 	fGainL = 1.f;			// default to 0 dB
 	fGainR = 1.f;
-	vst_strncpy (programName, "Default", kVstMaxProgNameLen);	// default program name
+	vst_strncpy(programName, "Default", kVstMaxProgNameLen);	// default program name
 }
 
 //-------------------------------------------------------------------------------------------------------
-AGain::~AGain ()
+StaGain::~StaGain()
 {
 	// nothing to do here
 }
 
 //-------------------------------------------------------------------------------------------------------
-void AGain::setProgramName (char* name)
+void StaGain::setProgramName(char* name)
 {
-	vst_strncpy (programName, name, kVstMaxProgNameLen);
+	vst_strncpy(programName, name, kVstMaxProgNameLen);
 }
 
 //-----------------------------------------------------------------------------------------
-void AGain::getProgramName (char* name)
+void StaGain::getProgramName(char* name)
 {
-	vst_strncpy (name, programName, kVstMaxProgNameLen);
+	vst_strncpy(name, programName, kVstMaxProgNameLen);
 }
 
 //-----------------------------------------------------------------------------------------
-void AGain::setParameter (VstInt32 index, float value)
+void StaGain::setParameter(VstInt32 index, float value)
 {
-	fGainL = value;
-	fGainR = value;
+	switch (index)
+	{
+		case kGainL: fGainL = value;	break;
+		case kGainR: fGainR = value;	break;
+	}
 }
 
 //-----------------------------------------------------------------------------------------
-float AGain::getParameter (VstInt32 index)
+float StaGain::getParameter(VstInt32 index)
 {
-	return fGainL;
-	return fGainR;
+	float tmp = 0;
+	switch (index)
+	{
+		case kGainL: tmp = fGainL;	break;
+		case kGainR: tmp = fGainR;	break;
+	}
+	return tmp;
 }
 
 //-----------------------------------------------------------------------------------------
-void AGain::getParameterName (VstInt32 index, char* label)
+void StaGain::getParameterName(VstInt32 index, char* label)
 {
-	vst_strncpy (label, "Gain", kVstMaxParamStrLen);
+	switch (index)
+	{
+		case kGainL: strcpy(label, " Left Gain ");	break;
+		case kGainR: strcpy(label, " Right Gain ");	break;
+	}
 }
 
 //-----------------------------------------------------------------------------------------
-void AGain::getParameterDisplay (VstInt32 index, char* text)
+void StaGain::getParameterDisplay(VstInt32 index, char* text)
 {
-	dB2string (fGainL, text, kVstMaxParamStrLen);
-	dB2string (fGainR, text, kVstMaxParamStrLen);
+	switch (index)
+	{
+		case kGainL: dB2string(fGainL, text, kVstMaxParamStrLen); break;
+		case kGainR: dB2string(fGainR, text, kVstMaxParamStrLen); break;
+	}
 }
 
 //-----------------------------------------------------------------------------------------
-void AGain::getParameterLabel (VstInt32 index, char* label)
+void StaGain::getParameterLabel(VstInt32 index, char* label)
 {
-	vst_strncpy (label, "dB", kVstMaxParamStrLen);
+	switch (index)
+	{
+		case kGainL:
+		case kGainR: strcpy(label, "dB"); break;
+	}
 }
 
 //------------------------------------------------------------------------
-bool AGain::getEffectName (char* name)
+bool StaGain::getEffectName(char* name)
 {
-	vst_strncpy (name, "Gain", kVstMaxEffectNameLen);
+	vst_strncpy(name, "Stereo Gain", kVstMaxEffectNameLen);
 	return true;
 }
 
 //------------------------------------------------------------------------
-bool AGain::getProductString (char* text)
+bool StaGain::getProductString(char* text)
 {
-	vst_strncpy (text, "Gain", kVstMaxProductStrLen);
+	vst_strncpy(text, "Stereo Gain", kVstMaxProductStrLen);
 	return true;
 }
 
 //------------------------------------------------------------------------
-bool AGain::getVendorString (char* text)
+bool StaGain::getVendorString(char* text)
 {
-	vst_strncpy (text, "Steinberg Media Technologies", kVstMaxVendorStrLen);
+	vst_strncpy(text, "Steinberg Media Technologies", kVstMaxVendorStrLen);
 	return true;
 }
 
 //-----------------------------------------------------------------------------------------
-VstInt32 AGain::getVendorVersion ()
-{ 
-	return 1000; 
-}
-
-//-----------------------------------------------------------------------------------------
-void AGain::processReplacing (float** inputs, float** outputs, VstInt32 sampleFrames)
+VstInt32 StaGain::getVendorVersion()
 {
-    float* in1  =  inputs[0];
-    float* in2  =  inputs[1];
-    float* out1 = outputs[0];
-    float* out2 = outputs[1];
-
-    while (--sampleFrames >= 0)
-    {
-        (*out1++) = (*in1++) * fGainL;
-        (*out2++) = (*in2++) * fGainR;
-    }
+	return 1000;
 }
 
 //-----------------------------------------------------------------------------------------
+void StaGain::processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames)
+{
+	float* in1 = inputs[0];
+	float* in2 = inputs[1];
+	float* out1 = outputs[0];
+	float* out2 = outputs[1];
 
+	while (--sampleFrames >= 0)
+	{
+		(*out1++) = (*in1++) * fGainL;
+		(*out2++) = (*in2++) * fGainR;
+	}
+}
+
+//-----------------------------------------------------------------------------------------
+void StaGain::processDoubleReplacing(double** inputs, double** outputs, VstInt32 sampleFrames)
+{
+	double* in1 = inputs[0];
+	double* in2 = inputs[1];
+	double* out1 = outputs[0];
+	double* out2 = outputs[1];
+	double dGainL = fGainL;
+	double dGainR = fGainR;
+
+	while (--sampleFrames >= 0)
+	{
+		(*out1++) = (*in1++) * dGainL;
+		(*out2++) = (*in2++) * dGainR;
+	}
+}
