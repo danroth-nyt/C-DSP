@@ -7,7 +7,7 @@
 // Created by   : Steinberg Media Technologies
 // Description  : Stereo plugin which applies Gain [-oo, 0dB]
 //
-// © 2006, Steinberg Media Technologies, All Rights Reserved
+// Â© 2006, Steinberg Media Technologies, All Rights Reserved
 //-------------------------------------------------------------------------------------------------------
 
 #include "iir.h"
@@ -159,6 +159,8 @@ void aIIR::resume()
 void aIIR::setSampleRate(float sampleRate)
 {
 	fS = sampleRate;
+	coefCalc32();
+	coefCalc64(); //Calculate coef 
 }
 
 void aIIR::coefCalc32()
