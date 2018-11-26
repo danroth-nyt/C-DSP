@@ -416,7 +416,12 @@ bool __stdcall CFormantFilter::processVSTAudioBuffer(float** inBuffer, float** o
 		smoothParameterValues(); // done on a per-sample-interval basis
 
 		// --- Left channel processing
-		*pOutputL = iFilter->process(*pInputL);
+		float inL = *pInputL++;
+		float outL = (a0 * inL) + z1;
+		z1 = (a1 * inL) - (b1 * outL) + z2;	//z1
+		z2 = (a2 * inL) - (b2 * outL);		//z2
+		*out1++ = outL;
+		*pOutputL = *pInputL);
 
 		// --- If there is a right channel
 		if(pInputR && pOutputR)
