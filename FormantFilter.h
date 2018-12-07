@@ -116,9 +116,12 @@ public:
 
 
 	float fS;
-	Biquad *iFilter = new Biquad();
-	
-	
+	Biquad *F1 = new Biquad();
+	Biquad *F2 = new Biquad();
+	Biquad *F3 = new Biquad();
+	Biquad *F4 = new Biquad();
+	Biquad *F5 = new Biquad();
+	void evaluateVowel();
 
 	// END OF USER CODE -------------------------------------------------------------- //
 
@@ -127,6 +130,9 @@ public:
 	//  **--0x07FD--**
 
 	int m_FiltType;
+	int m_fVowel;
+	int m_fDepth;
+	int m_fFilterStyle;
 
 	// **--0x1A7F--**
 	// ------------------------------------------------------------------------------- //

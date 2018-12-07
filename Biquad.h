@@ -24,13 +24,10 @@
 #define Biquad_h
 
 enum {
-	bq_type_lowpass = 0,
-	bq_type_highpass,
-	bq_type_bandpass,
-	bq_type_notch,
+	bq_type_bandpass = 0,
+	type_basic_res,
+	type_smithang_res,
 	bq_type_peak,
-	bq_type_lowshelf,
-	bq_type_highshelf
 };
 
 class Biquad {
