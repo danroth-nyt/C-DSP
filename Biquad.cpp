@@ -113,6 +113,24 @@ void Biquad::calcBiquad(void) {
 			b2 = (1 - V / Q * K + K * K) * norm;
 		}
 		break;
+	case bq_type_lowshelf:
+		if (peakGain >= 0) {    // boost
+			norm = 1 / (1 + sqrt(2) * K + K * K);
+			a0 = (1 + sqrt(2 * V) * K + V * K * K) * norm;
+			a1 = 2 * (V * K * K - 1) * norm;
+			a2 = (1 - sqrt(2 * V) * K + V * K * K) * norm;
+			b1 = 2 * (K * K - 1) * norm;
+			b2 = (1 - sqrt(2) * K + K * K) * norm;
+		}
+		else {    // cut
+			norm = 1 / (1 + sqrt(2 * V) * K + V * K * K);
+			a0 = (1 + sqrt(2) * K + K * K) * norm;
+			a1 = 2 * (K * K - 1) * norm;
+			a2 = (1 - sqrt(2) * K + K * K) * norm;
+			b1 = 2 * (V * K * K - 1) * norm;
+			b2 = (1 - sqrt(2 * V) * K + V * K * K) * norm;
+		}
+		break;
 	}
 
 	return;
