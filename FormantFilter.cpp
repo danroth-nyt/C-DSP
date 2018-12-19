@@ -52,7 +52,45 @@ CFormantFilter::CFormantFilter()
 	m_FiltType = 0;
 	m_fDepth = 5;
 	m_fFilterStyle = 0;
-	
+	createVowels();
+}
+
+void CFormantFilter::createVowels() {
+	a = new Vowel(new double[5]{ 600.0 / m_nSampleRate,
+		1040.0 / m_nSampleRate,
+		2250.0 / m_nSampleRate,
+		2450.0 / m_nSampleRate,
+		2750.0 / m_nSampleRate },
+		new double[5]{ 10.0, 14.86, 20.46, 20.42, 21.15 },
+		new double[5]{ 0.0, -7.0, -9.0, -9.0, -20.0 });
+	e = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
+		1620.0 / m_nSampleRate,
+		2400.0 / m_nSampleRate,
+		2800.0 / m_nSampleRate,
+		3100.0 / m_nSampleRate },
+		new double[5]{ 10.0, 20.25, 24.0, 23.33, 25.83 },
+		new double[5]{ 0.0, -12.0, -9.0, -12.0, -18.0 });
+	i = new Vowel(new double[5]{ 290.0 / m_nSampleRate,
+		2070.0 / m_nSampleRate,
+		2960.0 / m_nSampleRate,
+		3050.0 / m_nSampleRate,
+		3340.0 / m_nSampleRate },
+		new double[5]{ 4.83, 10.35, 7.4, 25.42, 27.83 },
+		new double[5]{ 0.0, -25.0, -16.0, -22.0, -28.0 });
+	o = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
+		750.0 / m_nSampleRate,
+		2400.0 / m_nSampleRate,
+		2600.0 / m_nSampleRate,
+		2900.0 / m_nSampleRate },
+		new double[5]{ 10.0, 9.38, 24.0, 21.67, 24.17 },
+		new double[5]{ 0.0, -11.0, -21.0, -20.0, -40.0 });
+	u = new Vowel(new double[5]{ 350.0 / m_nSampleRate,
+		600.0 / m_nSampleRate,
+		2400.0 / m_nSampleRate,
+		2675.0 / m_nSampleRate,
+		2950.0 / m_nSampleRate },
+		new double[5]{ 8.75, 7.5, 24.0, 22.29, 24.58 },
+		new double[5]{ 0.0, -20.0, -32.0, -28.0, -36.0 });
 }
 
 /* destructor()
@@ -65,7 +103,12 @@ CFormantFilter::~CFormantFilter(void)
 	delete F3;
 	delete F4;
 	delete F5;
-	delete lowShelf;
+	delete highShelf;
+	delete a;
+	delete e;
+	delete i;
+	delete o;
+	delete u;
 }
 
 
@@ -78,7 +121,7 @@ initialize()
 bool __stdcall CFormantFilter::initialize()
 {
 	// Add your code here
-	lowShelf->setBiquad(bq_type_lowshelf, 20000.0 / m_nSampleRate, 0.5, -16.0);
+	highShelf->setBiquad(bq_type_highshelf, 50.0 / m_nSampleRate, 0.5, -26.0);
 	return true;
 }
 
@@ -135,43 +178,54 @@ void CFormantFilter::evaluateVowel()
 	{
 	case 0:
 		// a
-		F1->setBiquad(m_FiltType, 600.0 / m_nSampleRate, 10.0, 0.0);
-		F2->setBiquad(m_FiltType, 1040.0 / m_nSampleRate, 14.86, -7.0);
-		F3->setBiquad(m_FiltType, 2250.0 / m_nSampleRate, 20.46, -9.0);
-		F4->setBiquad(m_FiltType, 2450.0 / m_nSampleRate, 20.42, -9.0);
-		F5->setBiquad(m_FiltType, 2750.0 / m_nSampleRate, 21.15, -20.0);
+		/*for (int i = 0; i < 5; i++)
+		{
+			fCinterPol = dLinTerp(0, 1, Fc[i], a->Fc[i], m_fTransSpeed);
+			a->Fc[i] = fCinterPol;
+			if (p > 4) //necessary?
+			{
+				p = 0;
+			}
+		}*/
+		
+		// original
+		F1->setBiquad(m_FiltType, a->Fc[0], a->Q[0], a->G[0]);
+		F2->setBiquad(m_FiltType, a->Fc[1], a->Q[1], a->G[1]);
+		F3->setBiquad(m_FiltType, a->Fc[2], a->Q[2], a->G[2]);
+		F4->setBiquad(m_FiltType, a->Fc[3], a->Q[3], a->G[3]);
+		F5->setBiquad(m_FiltType, a->Fc[4], a->Q[4], a->G[4]);
 		break;
 	case 1:
 		// e
-		F1->setBiquad(m_FiltType, 400.0 / m_nSampleRate, 10.0, 0.0);
-		F2->setBiquad(m_FiltType, 1620.0 / m_nSampleRate, 20.25, -12.0);
-		F3->setBiquad(m_FiltType, 2400.0 / m_nSampleRate, 24.0, -9.0);
-		F4->setBiquad(m_FiltType, 2800.0 / m_nSampleRate, 23.33, -12.0);
-		F5->setBiquad(m_FiltType, 3100.0 / m_nSampleRate, 25.83, -18.0);
+		F1->setBiquad(m_FiltType, e->Fc[0], e->Q[0], e->G[0]);
+		F2->setBiquad(m_FiltType, e->Fc[1], e->Q[1], e->G[1]);
+		F3->setBiquad(m_FiltType, e->Fc[2], e->Q[2], e->G[2]);
+		F4->setBiquad(m_FiltType, e->Fc[3], e->Q[3], e->G[3]);
+		F5->setBiquad(m_FiltType, e->Fc[4], e->Q[4], e->G[4]);
 		break;
 	case 2:
 		// i
-		F1->setBiquad(m_FiltType, 290.0 / m_nSampleRate, 4.83, 0.0);
-		F2->setBiquad(m_FiltType, 2070.0 / m_nSampleRate, 10.35, -30.0);
-		F3->setBiquad(m_FiltType, 2960.0 / m_nSampleRate, 7.4, -16.0);
-		F4->setBiquad(m_FiltType, 3050.0 / m_nSampleRate, 25.42, -22.0);
-		F5->setBiquad(m_FiltType, 3340.0 / m_nSampleRate, 27.83, -28.0);
+		F1->setBiquad(m_FiltType, i->Fc[0], i->Q[0], i->G[0]);
+		F2->setBiquad(m_FiltType, i->Fc[1], i->Q[1], i->G[1]);
+		F3->setBiquad(m_FiltType, i->Fc[2], i->Q[2], i->G[2]);
+		F4->setBiquad(m_FiltType, i->Fc[3], i->Q[3], i->G[3]);
+		F5->setBiquad(m_FiltType, i->Fc[4], i->Q[4], i->G[4]);
 		break;
 	case 3:
 		// o
-		F1->setBiquad(m_FiltType, 400.0 / m_nSampleRate, 10.0, 0.0);
-		F2->setBiquad(m_FiltType, 750.0 / m_nSampleRate, 9.38, -11.0);
-		F3->setBiquad(m_FiltType, 2400.0 / m_nSampleRate, 24.0, -21.0);
-		F4->setBiquad(m_FiltType, 2600.0 / m_nSampleRate, 21.67, -20.0);
-		F5->setBiquad(m_FiltType, 2900.0 / m_nSampleRate, 24.17, -40.0);
+		F1->setBiquad(m_FiltType, o->Fc[0], o->Q[0], o->G[0]);
+		F2->setBiquad(m_FiltType, o->Fc[1], o->Q[1], o->G[1]);
+		F3->setBiquad(m_FiltType, o->Fc[2], o->Q[2], o->G[2]);
+		F4->setBiquad(m_FiltType, o->Fc[3], o->Q[3], o->G[3]);
+		F5->setBiquad(m_FiltType, o->Fc[4], o->Q[4], o->G[4]);
 		break;
 	case 4:
 		// u
-		F1->setBiquad(m_FiltType, 350.0 / m_nSampleRate, 8.75, 0.0);
-		F2->setBiquad(m_FiltType, 600.0 / m_nSampleRate, 7.5, -20.0);
-		F3->setBiquad(m_FiltType, 2400.0 / m_nSampleRate, 24.0, -32.0);
-		F4->setBiquad(m_FiltType, 2675.0 / m_nSampleRate, 22.29, -28.0);
-		F5->setBiquad(m_FiltType, 2950.0 / m_nSampleRate, 24.58, -36.0);
+		F1->setBiquad(m_FiltType, u->Fc[0], u->Q[0], u->G[0]);
+		F2->setBiquad(m_FiltType, u->Fc[1], u->Q[1], u->G[1]);
+		F3->setBiquad(m_FiltType, u->Fc[2], u->Q[2], u->G[2]);
+		F4->setBiquad(m_FiltType, u->Fc[3], u->Q[3], u->G[3]);
+		F5->setBiquad(m_FiltType, u->Fc[4], u->Q[4], u->G[4]);
 		break;
 	}
 		
@@ -240,8 +294,7 @@ UIList Index	Variable Name					Control Index
 1				m_fVowel                          1
 2				m_fDepth                          2
 3				m_fFilterStyle                    3
-4				m_fshelfGain                      4
-5				m_fshelfQ                         5
+4				m_fTransSpeed                     4
 
 	Assignable Buttons               Index
 -----------------------------------------------
@@ -270,23 +323,31 @@ bool __stdcall CFormantFilter::userInterfaceChange(int nControlIndex)
 	{
 		case 0:
 		{
+			//Filter Type
 			evaluateVowel();
 			break;
 		}
 		case 1:
 		{
+			//Vowel
 			evaluateVowel();
 			break;
 		}
 		case 2:
 		{
+			//Depth
 			break;
 		}
 		case 3:
 		{
+			//Filter Style
 			break;
 		}
-
+		case 4:
+		{
+			//Transition Speed
+			break;
+		}
 		default:
 			break;
 	}
@@ -502,12 +563,13 @@ bool __stdcall CFormantFilter::processVSTAudioBuffer(float** inBuffer, float** o
 		float tempOut;
 		float inputL = *pInputL;
 		float inputR = *pInputR;
-		lowShelf->setBiquad(bq_type_lowshelf, 20000.0 / m_nSampleRate, m_fshelfQ, m_fshelfGain);
+
 		if (m_FiltType == bq_type_peak)
 		{
-			inputL = lowShelf->process(inputL);
-			inputR = lowShelf->process(inputR);
+			inputL = highShelf->process(inputL);
+			inputR = highShelf->process(inputR);
 		}
+
 		switch (m_fFilterStyle)
 		{
 		case 0:
@@ -845,28 +907,28 @@ bool __stdcall CFormantFilter::initUI()
 	uiCtrls.push_back(ui3);
 
 
-	m_fshelfGain = -15.000000;
+	m_fTransSpeed = 0.100000;
 	CUICtrl* ui4 = new CUICtrl;
 	ui4->uControlType = FILTER_CONTROL_CONTINUOUSLY_VARIABLE;
 	ui4->uControlId = 4;
 	ui4->bLogSlider = false;
 	ui4->bExpSlider = false;
-	ui4->fUserDisplayDataLoLimit = -50.000000;
-	ui4->fUserDisplayDataHiLimit = -15.000000;
+	ui4->fUserDisplayDataLoLimit = 0.000000;
+	ui4->fUserDisplayDataHiLimit = 0.510000;
 	ui4->uUserDataType = floatData;
 	ui4->fInitUserIntValue = 0;
-	ui4->fInitUserFloatValue = -15.000000;
+	ui4->fInitUserFloatValue = 0.100000;
 	ui4->fInitUserDoubleValue = 0;
 	ui4->fInitUserUINTValue = 0;
 	ui4->m_pUserCookedIntData = NULL;
-	ui4->m_pUserCookedFloatData = &m_fshelfGain;
+	ui4->m_pUserCookedFloatData = &m_fTransSpeed;
 	ui4->m_pUserCookedDoubleData = NULL;
 	ui4->m_pUserCookedUINTData = NULL;
-	ui4->cControlUnits = "dB";
-	ui4->cVariableName = "m_fshelfGain";
+	ui4->cControlUnits = "";
+	ui4->cVariableName = "m_fTransSpeed";
 	ui4->cEnumeratedList = "SEL1,SEL2,SEL3";
-	ui4->dPresetData[0] = -15.000000;ui4->dPresetData[1] = 0.000000;ui4->dPresetData[2] = 0.000000;ui4->dPresetData[3] = 0.000000;ui4->dPresetData[4] = 0.000000;ui4->dPresetData[5] = 0.000000;ui4->dPresetData[6] = 0.000000;ui4->dPresetData[7] = 0.000000;ui4->dPresetData[8] = 0.000000;ui4->dPresetData[9] = 0.000000;ui4->dPresetData[10] = 0.000000;ui4->dPresetData[11] = 0.000000;ui4->dPresetData[12] = 0.000000;ui4->dPresetData[13] = 0.000000;ui4->dPresetData[14] = 0.000000;ui4->dPresetData[15] = 0.000000;
-	ui4->cControlName = "shelfgain";
+	ui4->dPresetData[0] = 0.100000;ui4->dPresetData[1] = 0.000000;ui4->dPresetData[2] = 0.000000;ui4->dPresetData[3] = 0.000000;ui4->dPresetData[4] = 0.000000;ui4->dPresetData[5] = 0.000000;ui4->dPresetData[6] = 0.000000;ui4->dPresetData[7] = 0.000000;ui4->dPresetData[8] = 0.000000;ui4->dPresetData[9] = 0.000000;ui4->dPresetData[10] = 0.000000;ui4->dPresetData[11] = 0.000000;ui4->dPresetData[12] = 0.000000;ui4->dPresetData[13] = 0.000000;ui4->dPresetData[14] = 0.000000;ui4->dPresetData[15] = 0.000000;
+	ui4->cControlName = "Transition Speed";
 	ui4->bOwnerControl = false;
 	ui4->bMIDIControl = false;
 	ui4->uMIDIControlCommand = 176;
@@ -874,49 +936,12 @@ bool __stdcall CFormantFilter::initUI()
 	ui4->uMIDIControlChannel = 0;
 	ui4->nGUIRow = nIndexer++;
 	ui4->nGUIColumn = -1;
-	ui4->bEnableParamSmoothing = true;
+	ui4->bEnableParamSmoothing = false;
 	ui4->fSmoothingTimeInMs = 100.00;
 	ui4->uControlTheme[0] = 0; ui4->uControlTheme[1] = 0; ui4->uControlTheme[2] = 0; ui4->uControlTheme[3] = 0; ui4->uControlTheme[4] = 0; ui4->uControlTheme[5] = 0; ui4->uControlTheme[6] = 0; ui4->uControlTheme[7] = 0; ui4->uControlTheme[8] = 0; ui4->uControlTheme[9] = 0; ui4->uControlTheme[10] = 0; ui4->uControlTheme[11] = 0; ui4->uControlTheme[12] = 0; ui4->uControlTheme[13] = 0; ui4->uControlTheme[14] = 0; ui4->uControlTheme[15] = 0; ui4->uControlTheme[16] = 2; ui4->uControlTheme[17] = 0; ui4->uControlTheme[18] = 0; ui4->uControlTheme[19] = 0; ui4->uControlTheme[20] = 0; ui4->uControlTheme[21] = 0; ui4->uControlTheme[22] = 0; ui4->uControlTheme[23] = 0; ui4->uControlTheme[24] = 0; ui4->uControlTheme[25] = 0; ui4->uControlTheme[26] = 0; ui4->uControlTheme[27] = 0; ui4->uControlTheme[28] = 0; ui4->uControlTheme[29] = 0; ui4->uControlTheme[30] = 0; ui4->uControlTheme[31] = 0; 
 	ui4->uFluxCapControl[0] = 0; ui4->uFluxCapControl[1] = 0; ui4->uFluxCapControl[2] = 0; ui4->uFluxCapControl[3] = 0; ui4->uFluxCapControl[4] = 0; ui4->uFluxCapControl[5] = 0; ui4->uFluxCapControl[6] = 0; ui4->uFluxCapControl[7] = 0; ui4->uFluxCapControl[8] = 0; ui4->uFluxCapControl[9] = 0; ui4->uFluxCapControl[10] = 0; ui4->uFluxCapControl[11] = 0; ui4->uFluxCapControl[12] = 0; ui4->uFluxCapControl[13] = 0; ui4->uFluxCapControl[14] = 0; ui4->uFluxCapControl[15] = 0; ui4->uFluxCapControl[16] = 0; ui4->uFluxCapControl[17] = 0; ui4->uFluxCapControl[18] = 0; ui4->uFluxCapControl[19] = 0; ui4->uFluxCapControl[20] = 0; ui4->uFluxCapControl[21] = 0; ui4->uFluxCapControl[22] = 0; ui4->uFluxCapControl[23] = 0; ui4->uFluxCapControl[24] = 0; ui4->uFluxCapControl[25] = 0; ui4->uFluxCapControl[26] = 0; ui4->uFluxCapControl[27] = 0; ui4->uFluxCapControl[28] = 0; ui4->uFluxCapControl[29] = 0; ui4->uFluxCapControl[30] = 0; ui4->uFluxCapControl[31] = 0; ui4->uFluxCapControl[32] = 0; ui4->uFluxCapControl[33] = 0; ui4->uFluxCapControl[34] = 0; ui4->uFluxCapControl[35] = 0; ui4->uFluxCapControl[36] = 0; ui4->uFluxCapControl[37] = 0; ui4->uFluxCapControl[38] = 0; ui4->uFluxCapControl[39] = 0; ui4->uFluxCapControl[40] = 0; ui4->uFluxCapControl[41] = 0; ui4->uFluxCapControl[42] = 0; ui4->uFluxCapControl[43] = 0; ui4->uFluxCapControl[44] = 0; ui4->uFluxCapControl[45] = 0; ui4->uFluxCapControl[46] = 0; ui4->uFluxCapControl[47] = 0; ui4->uFluxCapControl[48] = 0; ui4->uFluxCapControl[49] = 0; ui4->uFluxCapControl[50] = 0; ui4->uFluxCapControl[51] = 0; ui4->uFluxCapControl[52] = 0; ui4->uFluxCapControl[53] = 0; ui4->uFluxCapControl[54] = 0; ui4->uFluxCapControl[55] = 0; ui4->uFluxCapControl[56] = 0; ui4->uFluxCapControl[57] = 0; ui4->uFluxCapControl[58] = 0; ui4->uFluxCapControl[59] = 0; ui4->uFluxCapControl[60] = 0; ui4->uFluxCapControl[61] = 0; ui4->uFluxCapControl[62] = 0; ui4->uFluxCapControl[63] = 0; 
 	ui4->fFluxCapData[0] = 0.000000; ui4->fFluxCapData[1] = 0.000000; ui4->fFluxCapData[2] = 0.000000; ui4->fFluxCapData[3] = 0.000000; ui4->fFluxCapData[4] = 0.000000; ui4->fFluxCapData[5] = 0.000000; ui4->fFluxCapData[6] = 0.000000; ui4->fFluxCapData[7] = 0.000000; ui4->fFluxCapData[8] = 0.000000; ui4->fFluxCapData[9] = 0.000000; ui4->fFluxCapData[10] = 0.000000; ui4->fFluxCapData[11] = 0.000000; ui4->fFluxCapData[12] = 0.000000; ui4->fFluxCapData[13] = 0.000000; ui4->fFluxCapData[14] = 0.000000; ui4->fFluxCapData[15] = 0.000000; ui4->fFluxCapData[16] = 0.000000; ui4->fFluxCapData[17] = 0.000000; ui4->fFluxCapData[18] = 0.000000; ui4->fFluxCapData[19] = 0.000000; ui4->fFluxCapData[20] = 0.000000; ui4->fFluxCapData[21] = 0.000000; ui4->fFluxCapData[22] = 0.000000; ui4->fFluxCapData[23] = 0.000000; ui4->fFluxCapData[24] = 0.000000; ui4->fFluxCapData[25] = 0.000000; ui4->fFluxCapData[26] = 0.000000; ui4->fFluxCapData[27] = 0.000000; ui4->fFluxCapData[28] = 0.000000; ui4->fFluxCapData[29] = 0.000000; ui4->fFluxCapData[30] = 0.000000; ui4->fFluxCapData[31] = 0.000000; ui4->fFluxCapData[32] = 0.000000; ui4->fFluxCapData[33] = 0.000000; ui4->fFluxCapData[34] = 0.000000; ui4->fFluxCapData[35] = 0.000000; ui4->fFluxCapData[36] = 0.000000; ui4->fFluxCapData[37] = 0.000000; ui4->fFluxCapData[38] = 0.000000; ui4->fFluxCapData[39] = 0.000000; ui4->fFluxCapData[40] = 0.000000; ui4->fFluxCapData[41] = 0.000000; ui4->fFluxCapData[42] = 0.000000; ui4->fFluxCapData[43] = 0.000000; ui4->fFluxCapData[44] = 0.000000; ui4->fFluxCapData[45] = 0.000000; ui4->fFluxCapData[46] = 0.000000; ui4->fFluxCapData[47] = 0.000000; ui4->fFluxCapData[48] = 0.000000; ui4->fFluxCapData[49] = 0.000000; ui4->fFluxCapData[50] = 0.000000; ui4->fFluxCapData[51] = 0.000000; ui4->fFluxCapData[52] = 0.000000; ui4->fFluxCapData[53] = 0.000000; ui4->fFluxCapData[54] = 0.000000; ui4->fFluxCapData[55] = 0.000000; ui4->fFluxCapData[56] = 0.000000; ui4->fFluxCapData[57] = 0.000000; ui4->fFluxCapData[58] = 0.000000; ui4->fFluxCapData[59] = 0.000000; ui4->fFluxCapData[60] = 0.000000; ui4->fFluxCapData[61] = 0.000000; ui4->fFluxCapData[62] = 0.000000; ui4->fFluxCapData[63] = 0.000000; 
 	uiCtrls.push_back(ui4);
-
-
-	m_fshelfQ = 0.500000;
-	CUICtrl* ui5 = new CUICtrl;
-	ui5->uControlType = FILTER_CONTROL_CONTINUOUSLY_VARIABLE;
-	ui5->uControlId = 5;
-	ui5->bLogSlider = false;
-	ui5->bExpSlider = false;
-	ui5->fUserDisplayDataLoLimit = 0.000000;
-	ui5->fUserDisplayDataHiLimit = 15.000000;
-	ui5->uUserDataType = floatData;
-	ui5->fInitUserIntValue = 0;
-	ui5->fInitUserFloatValue = 0.500000;
-	ui5->fInitUserDoubleValue = 0;
-	ui5->fInitUserUINTValue = 0;
-	ui5->m_pUserCookedIntData = NULL;
-	ui5->m_pUserCookedFloatData = &m_fshelfQ;
-	ui5->m_pUserCookedDoubleData = NULL;
-	ui5->m_pUserCookedUINTData = NULL;
-	ui5->cControlUnits = "";
-	ui5->cVariableName = "m_fshelfQ";
-	ui5->cEnumeratedList = "SEL1,SEL2,SEL3";
-	ui5->dPresetData[0] = 0.500000;ui5->dPresetData[1] = 0.000000;ui5->dPresetData[2] = 0.000000;ui5->dPresetData[3] = 0.000000;ui5->dPresetData[4] = 0.000000;ui5->dPresetData[5] = 0.000000;ui5->dPresetData[6] = 0.000000;ui5->dPresetData[7] = 0.000000;ui5->dPresetData[8] = 0.000000;ui5->dPresetData[9] = 0.000000;ui5->dPresetData[10] = 0.000000;ui5->dPresetData[11] = 0.000000;ui5->dPresetData[12] = 0.000000;ui5->dPresetData[13] = 0.000000;ui5->dPresetData[14] = 0.000000;ui5->dPresetData[15] = 0.000000;
-	ui5->cControlName = "shelfQ";
-	ui5->bOwnerControl = false;
-	ui5->bMIDIControl = false;
-	ui5->uMIDIControlCommand = 176;
-	ui5->uMIDIControlName = 3;
-	ui5->uMIDIControlChannel = 0;
-	ui5->nGUIRow = nIndexer++;
-	ui5->nGUIColumn = -1;
-	ui5->bEnableParamSmoothing = true;
-	ui5->fSmoothingTimeInMs = 100.00;
-	ui5->uControlTheme[0] = 0; ui5->uControlTheme[1] = 0; ui5->uControlTheme[2] = 0; ui5->uControlTheme[3] = 0; ui5->uControlTheme[4] = 0; ui5->uControlTheme[5] = 0; ui5->uControlTheme[6] = 0; ui5->uControlTheme[7] = 0; ui5->uControlTheme[8] = 0; ui5->uControlTheme[9] = 0; ui5->uControlTheme[10] = 0; ui5->uControlTheme[11] = 0; ui5->uControlTheme[12] = 0; ui5->uControlTheme[13] = 0; ui5->uControlTheme[14] = 0; ui5->uControlTheme[15] = 0; ui5->uControlTheme[16] = 2; ui5->uControlTheme[17] = 0; ui5->uControlTheme[18] = 0; ui5->uControlTheme[19] = 0; ui5->uControlTheme[20] = 0; ui5->uControlTheme[21] = 0; ui5->uControlTheme[22] = 0; ui5->uControlTheme[23] = 0; ui5->uControlTheme[24] = 0; ui5->uControlTheme[25] = 0; ui5->uControlTheme[26] = 0; ui5->uControlTheme[27] = 0; ui5->uControlTheme[28] = 0; ui5->uControlTheme[29] = 0; ui5->uControlTheme[30] = 0; ui5->uControlTheme[31] = 0; 
-	ui5->uFluxCapControl[0] = 0; ui5->uFluxCapControl[1] = 0; ui5->uFluxCapControl[2] = 0; ui5->uFluxCapControl[3] = 0; ui5->uFluxCapControl[4] = 0; ui5->uFluxCapControl[5] = 0; ui5->uFluxCapControl[6] = 0; ui5->uFluxCapControl[7] = 0; ui5->uFluxCapControl[8] = 0; ui5->uFluxCapControl[9] = 0; ui5->uFluxCapControl[10] = 0; ui5->uFluxCapControl[11] = 0; ui5->uFluxCapControl[12] = 0; ui5->uFluxCapControl[13] = 0; ui5->uFluxCapControl[14] = 0; ui5->uFluxCapControl[15] = 0; ui5->uFluxCapControl[16] = 0; ui5->uFluxCapControl[17] = 0; ui5->uFluxCapControl[18] = 0; ui5->uFluxCapControl[19] = 0; ui5->uFluxCapControl[20] = 0; ui5->uFluxCapControl[21] = 0; ui5->uFluxCapControl[22] = 0; ui5->uFluxCapControl[23] = 0; ui5->uFluxCapControl[24] = 0; ui5->uFluxCapControl[25] = 0; ui5->uFluxCapControl[26] = 0; ui5->uFluxCapControl[27] = 0; ui5->uFluxCapControl[28] = 0; ui5->uFluxCapControl[29] = 0; ui5->uFluxCapControl[30] = 0; ui5->uFluxCapControl[31] = 0; ui5->uFluxCapControl[32] = 0; ui5->uFluxCapControl[33] = 0; ui5->uFluxCapControl[34] = 0; ui5->uFluxCapControl[35] = 0; ui5->uFluxCapControl[36] = 0; ui5->uFluxCapControl[37] = 0; ui5->uFluxCapControl[38] = 0; ui5->uFluxCapControl[39] = 0; ui5->uFluxCapControl[40] = 0; ui5->uFluxCapControl[41] = 0; ui5->uFluxCapControl[42] = 0; ui5->uFluxCapControl[43] = 0; ui5->uFluxCapControl[44] = 0; ui5->uFluxCapControl[45] = 0; ui5->uFluxCapControl[46] = 0; ui5->uFluxCapControl[47] = 0; ui5->uFluxCapControl[48] = 0; ui5->uFluxCapControl[49] = 0; ui5->uFluxCapControl[50] = 0; ui5->uFluxCapControl[51] = 0; ui5->uFluxCapControl[52] = 0; ui5->uFluxCapControl[53] = 0; ui5->uFluxCapControl[54] = 0; ui5->uFluxCapControl[55] = 0; ui5->uFluxCapControl[56] = 0; ui5->uFluxCapControl[57] = 0; ui5->uFluxCapControl[58] = 0; ui5->uFluxCapControl[59] = 0; ui5->uFluxCapControl[60] = 0; ui5->uFluxCapControl[61] = 0; ui5->uFluxCapControl[62] = 0; ui5->uFluxCapControl[63] = 0; 
-	ui5->fFluxCapData[0] = 0.000000; ui5->fFluxCapData[1] = 0.000000; ui5->fFluxCapData[2] = 0.000000; ui5->fFluxCapData[3] = 0.000000; ui5->fFluxCapData[4] = 0.000000; ui5->fFluxCapData[5] = 0.000000; ui5->fFluxCapData[6] = 0.000000; ui5->fFluxCapData[7] = 0.000000; ui5->fFluxCapData[8] = 0.000000; ui5->fFluxCapData[9] = 0.000000; ui5->fFluxCapData[10] = 0.000000; ui5->fFluxCapData[11] = 0.000000; ui5->fFluxCapData[12] = 0.000000; ui5->fFluxCapData[13] = 0.000000; ui5->fFluxCapData[14] = 0.000000; ui5->fFluxCapData[15] = 0.000000; ui5->fFluxCapData[16] = 0.000000; ui5->fFluxCapData[17] = 0.000000; ui5->fFluxCapData[18] = 0.000000; ui5->fFluxCapData[19] = 0.000000; ui5->fFluxCapData[20] = 0.000000; ui5->fFluxCapData[21] = 0.000000; ui5->fFluxCapData[22] = 0.000000; ui5->fFluxCapData[23] = 0.000000; ui5->fFluxCapData[24] = 0.000000; ui5->fFluxCapData[25] = 0.000000; ui5->fFluxCapData[26] = 0.000000; ui5->fFluxCapData[27] = 0.000000; ui5->fFluxCapData[28] = 0.000000; ui5->fFluxCapData[29] = 0.000000; ui5->fFluxCapData[30] = 0.000000; ui5->fFluxCapData[31] = 0.000000; ui5->fFluxCapData[32] = 0.000000; ui5->fFluxCapData[33] = 0.000000; ui5->fFluxCapData[34] = 0.000000; ui5->fFluxCapData[35] = 0.000000; ui5->fFluxCapData[36] = 0.000000; ui5->fFluxCapData[37] = 0.000000; ui5->fFluxCapData[38] = 0.000000; ui5->fFluxCapData[39] = 0.000000; ui5->fFluxCapData[40] = 0.000000; ui5->fFluxCapData[41] = 0.000000; ui5->fFluxCapData[42] = 0.000000; ui5->fFluxCapData[43] = 0.000000; ui5->fFluxCapData[44] = 0.000000; ui5->fFluxCapData[45] = 0.000000; ui5->fFluxCapData[46] = 0.000000; ui5->fFluxCapData[47] = 0.000000; ui5->fFluxCapData[48] = 0.000000; ui5->fFluxCapData[49] = 0.000000; ui5->fFluxCapData[50] = 0.000000; ui5->fFluxCapData[51] = 0.000000; ui5->fFluxCapData[52] = 0.000000; ui5->fFluxCapData[53] = 0.000000; ui5->fFluxCapData[54] = 0.000000; ui5->fFluxCapData[55] = 0.000000; ui5->fFluxCapData[56] = 0.000000; ui5->fFluxCapData[57] = 0.000000; ui5->fFluxCapData[58] = 0.000000; ui5->fFluxCapData[59] = 0.000000; ui5->fFluxCapData[60] = 0.000000; ui5->fFluxCapData[61] = 0.000000; ui5->fFluxCapData[62] = 0.000000; ui5->fFluxCapData[63] = 0.000000; 
-	uiCtrls.push_back(ui5);
 
 
 	for (int i = 0; i < uiCtrls.size(); i++)

@@ -13,6 +13,7 @@
 // base class
 #include "plugin.h"
 #include "Biquad.h"
+#include "Vowel.h"
 
 #ifndef M_PI
 #define M_PI       3.14159265358979323846
@@ -121,11 +122,13 @@ public:
 	Biquad *F3 = new Biquad();
 	Biquad *F4 = new Biquad();
 	Biquad *F5 = new Biquad();
-	Biquad *lowShelf = new Biquad();
+	Biquad *highShelf = new Biquad();
 	void evaluateVowel();
 	bool interpolateActive = false;
 	Biquad* Formants[5] = { F1,F2,F3,F4,F5 };
 	float processCascade(float depth, float input, int currentF = 1);
+	Vowel *a, *e, *i, *o, *u;
+	void createVowels();
 
 	// END OF USER CODE -------------------------------------------------------------- //
 
@@ -137,8 +140,7 @@ public:
 	int m_fVowel;
 	int m_fDepth;
 	int m_fFilterStyle;
-	float m_fshelfGain;
-	float m_fshelfQ;
+	float m_fTransSpeed;
 
 	// **--0x1A7F--**
 	// ------------------------------------------------------------------------------- //

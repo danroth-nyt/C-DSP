@@ -28,7 +28,7 @@ enum {
 	type_basic_res,
 	type_smithang_res,
 	bq_type_peak,
-	bq_type_lowshelf
+	bq_type_highshelf
 };
 
 class Biquad {
