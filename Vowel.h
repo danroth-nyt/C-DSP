@@ -6,7 +6,6 @@ public:
 	double* Fc;
 	double* Q;
 	double* G;
-	//static inrp
 	
 };
 

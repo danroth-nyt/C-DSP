@@ -129,6 +129,10 @@ public:
 	float processCascade(float depth, float input, int currentF = 1);
 	Vowel *a, *e, *i, *o, *u;
 	void createVowels();
+	double oldFc[5];
+	double oldQ[5];
+	double oldG[5];
+	double newFc[5], newQ[5], newG[5];
 
 	// END OF USER CODE -------------------------------------------------------------- //
 

@@ -121,6 +121,13 @@ initialize()
 bool __stdcall CFormantFilter::initialize()
 {
 	// Add your code here
+	for (int i = 0; i < 5; i++)
+	{
+		Formants[i]->setBiquad(m_FiltType, a->Fc[i], a->Q[i], a->G[i]);
+		oldFc[i] = a->Fc[i];
+		oldQ[i] = a->Q[i];
+		oldG[i] = a->G[i];
+	}
 	highShelf->setBiquad(bq_type_highshelf, 50.0 / m_nSampleRate, 0.5, -26.0);
 	return true;
 }
@@ -165,7 +172,7 @@ bool __stdcall CFormantFilter::prepareForPlay()
 {
 	// Add your code here:
 
-	evaluateVowel();
+	//evaluateVowel();
 
 	// --- let base class do its thing
 	return CPlugIn::prepareForPlay();
@@ -178,54 +185,38 @@ void CFormantFilter::evaluateVowel()
 	{
 	case 0:
 		// a
-		/*for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++)
 		{
-			fCinterPol = dLinTerp(0, 1, Fc[i], a->Fc[i], m_fTransSpeed);
-			a->Fc[i] = fCinterPol;
-			if (p > 4) //necessary?
-			{
-				p = 0;
-			}
-		}*/
-		
-		// original
-		F1->setBiquad(m_FiltType, a->Fc[0], a->Q[0], a->G[0]);
-		F2->setBiquad(m_FiltType, a->Fc[1], a->Q[1], a->G[1]);
-		F3->setBiquad(m_FiltType, a->Fc[2], a->Q[2], a->G[2]);
-		F4->setBiquad(m_FiltType, a->Fc[3], a->Q[3], a->G[3]);
-		F5->setBiquad(m_FiltType, a->Fc[4], a->Q[4], a->G[4]);
+			Formants[i]->setBiquad(m_FiltType, a->Fc[i], a->Q[i], a->G[i]);
+		}
 		break;
 	case 1:
 		// e
-		F1->setBiquad(m_FiltType, e->Fc[0], e->Q[0], e->G[0]);
-		F2->setBiquad(m_FiltType, e->Fc[1], e->Q[1], e->G[1]);
-		F3->setBiquad(m_FiltType, e->Fc[2], e->Q[2], e->G[2]);
-		F4->setBiquad(m_FiltType, e->Fc[3], e->Q[3], e->G[3]);
-		F5->setBiquad(m_FiltType, e->Fc[4], e->Q[4], e->G[4]);
+		for (int i = 0; i < 5; i++)
+		{
+			Formants[i]->setBiquad(m_FiltType, e->Fc[i], e->Q[i], e->G[i]);
+		}
 		break;
 	case 2:
 		// i
-		F1->setBiquad(m_FiltType, i->Fc[0], i->Q[0], i->G[0]);
-		F2->setBiquad(m_FiltType, i->Fc[1], i->Q[1], i->G[1]);
-		F3->setBiquad(m_FiltType, i->Fc[2], i->Q[2], i->G[2]);
-		F4->setBiquad(m_FiltType, i->Fc[3], i->Q[3], i->G[3]);
-		F5->setBiquad(m_FiltType, i->Fc[4], i->Q[4], i->G[4]);
+		for (int c = 0; c < 5; c++)
+		{
+			Formants[c]->setBiquad(m_FiltType, i->Fc[c], i->Q[c], i->G[c]);
+		}
 		break;
 	case 3:
 		// o
-		F1->setBiquad(m_FiltType, o->Fc[0], o->Q[0], o->G[0]);
-		F2->setBiquad(m_FiltType, o->Fc[1], o->Q[1], o->G[1]);
-		F3->setBiquad(m_FiltType, o->Fc[2], o->Q[2], o->G[2]);
-		F4->setBiquad(m_FiltType, o->Fc[3], o->Q[3], o->G[3]);
-		F5->setBiquad(m_FiltType, o->Fc[4], o->Q[4], o->G[4]);
+		for (int i = 0; i < 5; i++)
+		{
+			Formants[i]->setBiquad(m_FiltType, o->Fc[i], o->Q[i], o->G[i]);
+		}
 		break;
 	case 4:
 		// u
-		F1->setBiquad(m_FiltType, u->Fc[0], u->Q[0], u->G[0]);
-		F2->setBiquad(m_FiltType, u->Fc[1], u->Q[1], u->G[1]);
-		F3->setBiquad(m_FiltType, u->Fc[2], u->Q[2], u->G[2]);
-		F4->setBiquad(m_FiltType, u->Fc[3], u->Q[3], u->G[3]);
-		F5->setBiquad(m_FiltType, u->Fc[4], u->Q[4], u->G[4]);
+		for (int i = 0; i < 5; i++)
+		{
+			Formants[i]->setBiquad(m_FiltType, u->Fc[i], u->Q[i], u->G[i]);
+		}
 		break;
 	}
 		
@@ -324,13 +315,13 @@ bool __stdcall CFormantFilter::userInterfaceChange(int nControlIndex)
 		case 0:
 		{
 			//Filter Type
-			evaluateVowel();
+			//evaluateVowel();
 			break;
 		}
 		case 1:
 		{
 			//Vowel
-			evaluateVowel();
+			//evaluateVowel();
 			break;
 		}
 		case 2:
@@ -346,6 +337,8 @@ bool __stdcall CFormantFilter::userInterfaceChange(int nControlIndex)
 		case 4:
 		{
 			//Transition Speed
+			if (m_fTransSpeed > 0.5)
+				m_fTransSpeed = 1.0;
 			break;
 		}
 		default:
@@ -546,6 +539,7 @@ bool __stdcall CFormantFilter::processVSTAudioBuffer(float** inBuffer, float** o
 	// Process audio by de-referencing ptrs
 	// this is siple pass through code
 	unsigned int uSample = 0;
+	
 	while (--inFramesToProcess >= 0)
 	{
 		// --- fire midi events (AU, VST2, AAX buffer processing only; not needed if you use processAudioFrame())
@@ -568,6 +562,57 @@ bool __stdcall CFormantFilter::processVSTAudioBuffer(float** inBuffer, float** o
 		{
 			inputL = highShelf->process(inputL);
 			inputR = highShelf->process(inputR);
+		}
+
+		switch (m_fVowel)
+		{
+		case 0:
+			// a
+			for (int i = 0; i < 5; i++)
+			{
+				newFc[i] = dLinTerp(0, 1, oldFc[i], a->Fc[i], m_fTransSpeed);
+				newQ[i] = dLinTerp(0, 1, oldQ[i], a->Q[i], m_fTransSpeed);
+				newG[i] = dLinTerp(0, 1, oldG[i], a->G[i], m_fTransSpeed);
+				Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
+				oldFc[i] = a->Fc[i];
+				oldQ[i] = a->Q[i];
+				oldG[i] = a->G[i];
+			}
+			break;
+		case 1:
+			// e
+			for (int i = 0; i < 5; i++)
+			{
+				newFc[i] = dLinTerp(0, 1, oldFc[i], e->Fc[i], m_fTransSpeed);
+				newQ[i] = dLinTerp(0, 1, oldQ[i], e->Q[i], m_fTransSpeed);
+				newG[i] = dLinTerp(0, 1, oldG[i], e->G[i], m_fTransSpeed);
+				Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
+				oldFc[i] = e->Fc[i];
+				oldQ[i] = e->Q[i];
+				oldG[i] = e->G[i];
+			}
+			break;
+		case 2:
+			// i
+			for (int c = 0; c < 5; c++)
+			{
+				Formants[c]->setBiquad(m_FiltType, i->Fc[c], i->Q[c], i->G[c]);
+			}
+			break;
+		case 3:
+			// o
+			for (int i = 0; i < 5; i++)
+			{
+				Formants[i]->setBiquad(m_FiltType, o->Fc[i], o->Q[i], o->G[i]);
+			}
+			break;
+		case 4:
+			// u
+			for (int i = 0; i < 5; i++)
+			{
+				Formants[i]->setBiquad(m_FiltType, u->Fc[i], u->Q[i], u->G[i]);
+			}
+			break;
 		}
 
 		switch (m_fFilterStyle)
