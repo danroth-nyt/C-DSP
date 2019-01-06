@@ -574,9 +574,9 @@ bool __stdcall CFormantFilter::processVSTAudioBuffer(float** inBuffer, float** o
 				newQ[i] = dLinTerp(0, 1, oldQ[i], a->Q[i], m_fTransSpeed);
 				newG[i] = dLinTerp(0, 1, oldG[i], a->G[i], m_fTransSpeed);
 				Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
-				oldFc[i] = a->Fc[i];
-				oldQ[i] = a->Q[i];
-				oldG[i] = a->G[i];
+				oldFc[i] = newFc[i];
+				oldQ[i] = newQ[i];
+				oldG[i] = newG[i];
 			}
 			break;
 		case 1:
@@ -587,9 +587,9 @@ bool __stdcall CFormantFilter::processVSTAudioBuffer(float** inBuffer, float** o
 				newQ[i] = dLinTerp(0, 1, oldQ[i], e->Q[i], m_fTransSpeed);
 				newG[i] = dLinTerp(0, 1, oldG[i], e->G[i], m_fTransSpeed);
 				Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
-				oldFc[i] = e->Fc[i];
-				oldQ[i] = e->Q[i];
-				oldG[i] = e->G[i];
+				oldFc[i] = newFc[i];
+				oldQ[i] = newQ[i];
+				oldG[i] = newG[i];
 			}
 			break;
 		case 2:
