@@ -56,35 +56,105 @@ CFormantFilter::CFormantFilter()
 }
 
 void CFormantFilter::createVowels() {
-	a = new Vowel(new double[5]{ 600.0 / m_nSampleRate,
+	a1 = new Vowel(new double[5]{ 600.0 / m_nSampleRate,
 		1040.0 / m_nSampleRate,
 		2250.0 / m_nSampleRate,
 		2450.0 / m_nSampleRate,
 		2750.0 / m_nSampleRate },
 		new double[5]{ 10.0, 14.86, 20.46, 20.42, 21.15 },
 		new double[5]{ 0.0, -7.0, -9.0, -9.0, -20.0 });
-	e = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
+	a2 = new Vowel(new double[5]{ 650.0 / m_nSampleRate,
+		1080.0 / m_nSampleRate,
+		2650.0 / m_nSampleRate,
+		2900.0 / m_nSampleRate,
+		3250.0 / m_nSampleRate },
+		new double[5]{ 8.125, 12.0, 22.08, 22.31, 2.32 },
+		new double[5]{ 0.0, -6.0, -7.0, -8.0, -22.0 });
+	a3 = new Vowel(new double[5]{ 800.0 / m_nSampleRate,
+		1150.0 / m_nSampleRate,
+		2800.0 / m_nSampleRate,
+		3500.0 / m_nSampleRate,
+		4950.0 / m_nSampleRate },
+		new double[5]{ 10.0, 12.77, 23.33, 26.92, 35.36 },
+		new double[5]{ 0.0, -4.0, -20.0, -36.0, -60.0 });
+	e1 = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
 		1620.0 / m_nSampleRate,
 		2400.0 / m_nSampleRate,
 		2800.0 / m_nSampleRate,
 		3100.0 / m_nSampleRate },
 		new double[5]{ 10.0, 20.25, 24.0, 23.33, 25.83 },
 		new double[5]{ 0.0, -12.0, -9.0, -12.0, -18.0 });
-	i = new Vowel(new double[5]{ 290.0 / m_nSampleRate,
-		2070.0 / m_nSampleRate,
-		2960.0 / m_nSampleRate,
+	e2 = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
+		1700.0 / m_nSampleRate,
+		2600.0 / m_nSampleRate,
+		3200.0 / m_nSampleRate,
+		3580.0 / m_nSampleRate },
+		new double[5]{ 5.71, 21.25, 26.0, 26.67, 29.83 },
+		new double[5]{ 0.0, -14.0, -12.0, -14.0, -20.0 });
+	e3 = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
+		1600.0 / m_nSampleRate,
+		2700.0 / m_nSampleRate,
+		3300.0 / m_nSampleRate,
+		4950.0 / m_nSampleRate },
+		new double[5]{ 6.67, 20.0, 22.5, 22.0, 24.75 },
+		new double[5]{ 0.0, -24.0, -30.0, -35.0, -60.0 });
+	i1 = new Vowel(new double[5]{ 250.0 / m_nSampleRate,
+		1750.0 / m_nSampleRate,
+		2600.0 / m_nSampleRate,
 		3050.0 / m_nSampleRate,
 		3340.0 / m_nSampleRate },
-		new double[5]{ 4.83, 10.35, 7.4, 25.42, 27.83 },
-		new double[5]{ 0.0, -25.0, -16.0, -22.0, -28.0 });
-	o = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
+		new double[5]{ 4.16, 19.44, 26.0, 25.42, 27.83 },
+		new double[5]{ 0.0, -30.0, -16.0, -22.0, -28.0 });
+	i2 = new Vowel(new double[5]{ 290.0 / m_nSampleRate,
+		1870.0 / m_nSampleRate,
+		2800.0 / m_nSampleRate,
+		3250.0 / m_nSampleRate,
+		3540.0 / m_nSampleRate },
+		new double[5]{ 7.25, 20.78, 28.0, 27.08, 29.5 },
+		new double[5]{ 0.0, -15.0, -18.0, -20.0, -30.0 });
+	i3 = new Vowel(new double[5]{ 350.0 / m_nSampleRate,
+		1700.0 / m_nSampleRate,
+		2700.0 / m_nSampleRate,
+		3300.0 / m_nSampleRate,
+		4950.0 / m_nSampleRate },
+		new double[5]{ 5.0, 17.0, 22.5, 22.0, 24.75 },
+		new double[5]{ 0.0, -20.0, -30.0, -36.0, -60.0 });
+	o1 = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
 		750.0 / m_nSampleRate,
 		2400.0 / m_nSampleRate,
 		2600.0 / m_nSampleRate,
 		2900.0 / m_nSampleRate },
 		new double[5]{ 10.0, 9.38, 24.0, 21.67, 24.17 },
 		new double[5]{ 0.0, -11.0, -21.0, -20.0, -40.0 });
-	u = new Vowel(new double[5]{ 350.0 / m_nSampleRate,
+	o2 = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
+		750.0 / m_nSampleRate,
+		2400.0 / m_nSampleRate,
+		2600.0 / m_nSampleRate,
+		2900.0 / m_nSampleRate },
+		new double[5]{ 10.0, 9.38, 24.0, 21.67, 24.17 },
+		new double[5]{ 0.0, -11.0, -21.0, -20.0, -40.0 });
+	o3 = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
+		750.0 / m_nSampleRate,
+		2400.0 / m_nSampleRate,
+		2600.0 / m_nSampleRate,
+		2900.0 / m_nSampleRate },
+		new double[5]{ 10.0, 9.38, 24.0, 21.67, 24.17 },
+		new double[5]{ 0.0, -11.0, -21.0, -20.0, -40.0 });
+	u1 = new Vowel(new double[5]{ 350.0 / m_nSampleRate,
+		600.0 / m_nSampleRate,
+		2400.0 / m_nSampleRate,
+		2675.0 / m_nSampleRate,
+		2950.0 / m_nSampleRate },
+		new double[5]{ 8.75, 7.5, 24.0, 22.29, 24.58 },
+		new double[5]{ 0.0, -20.0, -32.0, -28.0, -36.0 });
+	u2 = new Vowel(new double[5]{ 350.0 / m_nSampleRate,
+		600.0 / m_nSampleRate,
+		2400.0 / m_nSampleRate,
+		2675.0 / m_nSampleRate,
+		2950.0 / m_nSampleRate },
+		new double[5]{ 8.75, 7.5, 24.0, 22.29, 24.58 },
+		new double[5]{ 0.0, -20.0, -32.0, -28.0, -36.0 });
+	u3 = new Vowel(new double[5]{ 350.0 / m_nSampleRate,
 		600.0 / m_nSampleRate,
 		2400.0 / m_nSampleRate,
 		2675.0 / m_nSampleRate,
@@ -104,11 +174,11 @@ CFormantFilter::~CFormantFilter(void)
 	delete F4;
 	delete F5;
 	delete highShelf;
-	delete a;
-	delete e;
-	delete i;
-	delete o;
-	delete u;
+	delete a1, a2, a3;
+	delete e1, e2, e3;
+	delete i1, i2, i3;
+	delete o1, o2, o3;
+	delete u1, u2, u3;
 }
 
 
@@ -123,10 +193,10 @@ bool __stdcall CFormantFilter::initialize()
 	// Add your code here
 	for (int i = 0; i < 5; i++)
 	{
-		Formants[i]->setBiquad(m_FiltType, a->Fc[i], a->Q[i], a->G[i]);
-		oldFc[i] = a->Fc[i];
-		oldQ[i] = a->Q[i];
-		oldG[i] = a->G[i];
+		Formants[i]->setBiquad(m_FiltType, a1->Fc[i], a1->Q[i], a1->G[i]);
+		oldFc[i] = a1->Fc[i];
+		oldQ[i] = a1->Q[i];
+		oldG[i] = a1->G[i];
 	}
 	highShelf->setBiquad(bq_type_highshelf, 50.0 / m_nSampleRate, 0.5, -26.0);
 	return true;
@@ -178,9 +248,8 @@ bool __stdcall CFormantFilter::prepareForPlay()
 	return CPlugIn::prepareForPlay();
 }
 
-void CFormantFilter::evaluateVowel()
+/*void CFormantFilter::evaluateVowel()
 {
-	interpolateActive = true;
 	switch (m_fVowel)
 	{
 	case 0:
@@ -220,7 +289,7 @@ void CFormantFilter::evaluateVowel()
 		break;
 	}
 		
-}
+}*/
 
 
 
@@ -286,6 +355,7 @@ UIList Index	Variable Name					Control Index
 2				m_fDepth                          2
 3				m_fFilterStyle                    3
 4				m_fTransSpeed                     4
+5				m_fOctave                         5
 
 	Assignable Buttons               Index
 -----------------------------------------------
@@ -564,55 +634,166 @@ bool __stdcall CFormantFilter::processVSTAudioBuffer(float** inBuffer, float** o
 			inputR = highShelf->process(inputR);
 		}
 
-		switch (m_fVowel)
+		if (m_fOctave == 0)
 		{
-		case 0:
-			// a
-			for (int i = 0; i < 5; i++)
+			switch (m_fVowel)
 			{
-				newFc[i] = dLinTerp(0, 1, oldFc[i], a->Fc[i], m_fTransSpeed);
-				newQ[i] = dLinTerp(0, 1, oldQ[i], a->Q[i], m_fTransSpeed);
-				newG[i] = dLinTerp(0, 1, oldG[i], a->G[i], m_fTransSpeed);
-				Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
-				oldFc[i] = newFc[i];
-				oldQ[i] = newQ[i];
-				oldG[i] = newG[i];
+			case 0:
+				// a
+				for (int i = 0; i < 5; i++)
+				{
+					newFc[i] = dLinTerp(0, 1, oldFc[i], a->Fc[i], m_fTransSpeed);
+					newQ[i] = dLinTerp(0, 1, oldQ[i], a->Q[i], m_fTransSpeed);
+					newG[i] = dLinTerp(0, 1, oldG[i], a->G[i], m_fTransSpeed);
+					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
+					oldFc[i] = newFc[i];
+					oldQ[i] = newQ[i];
+					oldG[i] = newG[i];
+				}
+				break;
+			case 1:
+				// e
+				for (int i = 0; i < 5; i++)
+				{
+					newFc[i] = dLinTerp(0, 1, oldFc[i], e->Fc[i], m_fTransSpeed);
+					newQ[i] = dLinTerp(0, 1, oldQ[i], e->Q[i], m_fTransSpeed);
+					newG[i] = dLinTerp(0, 1, oldG[i], e->G[i], m_fTransSpeed);
+					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
+					oldFc[i] = newFc[i];
+					oldQ[i] = newQ[i];
+					oldG[i] = newG[i];
+				}
+				break;
+			case 2:
+				// i
+				for (int c = 0; c < 5; c++)
+				{
+					Formants[c]->setBiquad(m_FiltType, i1->Fc[c], i1->Q[c], i1->G[c]);
+				}
+				break;
+			case 3:
+				// o
+				for (int i = 0; i < 5; i++)
+				{
+					Formants[i]->setBiquad(m_FiltType, o1->Fc[i], o1->Q[i], o1->G[i]);
+				}
+				break;
+			case 4:
+				// u
+				for (int i = 0; i < 5; i++)
+				{
+					Formants[i]->setBiquad(m_FiltType, u1->Fc[i], u1->Q[i], u1->G[i]);
+				}
+				break;
 			}
-			break;
-		case 1:
-			// e
-			for (int i = 0; i < 5; i++)
+		}
+
+		if (m_fOctave == 1)
+		{
+			switch (m_fVowel)
 			{
-				newFc[i] = dLinTerp(0, 1, oldFc[i], e->Fc[i], m_fTransSpeed);
-				newQ[i] = dLinTerp(0, 1, oldQ[i], e->Q[i], m_fTransSpeed);
-				newG[i] = dLinTerp(0, 1, oldG[i], e->G[i], m_fTransSpeed);
-				Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
-				oldFc[i] = newFc[i];
-				oldQ[i] = newQ[i];
-				oldG[i] = newG[i];
+			case 0:
+				// a
+				for (int i = 0; i < 5; i++)
+				{
+					newFc[i] = dLinTerp(0, 1, oldFc[i], a->Fc[i], m_fTransSpeed);
+					newQ[i] = dLinTerp(0, 1, oldQ[i], a->Q[i], m_fTransSpeed);
+					newG[i] = dLinTerp(0, 1, oldG[i], a->G[i], m_fTransSpeed);
+					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
+					oldFc[i] = newFc[i];
+					oldQ[i] = newQ[i];
+					oldG[i] = newG[i];
+				}
+				break;
+			case 1:
+				// e
+				for (int i = 0; i < 5; i++)
+				{
+					newFc[i] = dLinTerp(0, 1, oldFc[i], e->Fc[i], m_fTransSpeed);
+					newQ[i] = dLinTerp(0, 1, oldQ[i], e->Q[i], m_fTransSpeed);
+					newG[i] = dLinTerp(0, 1, oldG[i], e->G[i], m_fTransSpeed);
+					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
+					oldFc[i] = newFc[i];
+					oldQ[i] = newQ[i];
+					oldG[i] = newG[i];
+				}
+				break;
+			case 2:
+				// i
+				for (int c = 0; c < 5; c++)
+				{
+					Formants[c]->setBiquad(m_FiltType, i2->Fc[c], i2->Q[c], i2->G[c]);
+				}
+				break;
+			case 3:
+				// o
+				for (int i = 0; i < 5; i++)
+				{
+					Formants[i]->setBiquad(m_FiltType, o2->Fc[i], o2->Q[i], o2->G[i]);
+				}
+				break;
+			case 4:
+				// u
+				for (int i = 0; i < 5; i++)
+				{
+					Formants[i]->setBiquad(m_FiltType, u2->Fc[i], u2->Q[i], u2->G[i]);
+				}
+				break;
 			}
-			break;
-		case 2:
-			// i
-			for (int c = 0; c < 5; c++)
+		}
+
+		if (m_fOctave == 2)
+		{
+			switch (m_fVowel)
 			{
-				Formants[c]->setBiquad(m_FiltType, i->Fc[c], i->Q[c], i->G[c]);
+			case 0:
+				// a
+				for (int i = 0; i < 5; i++)
+				{
+					newFc[i] = dLinTerp(0, 1, oldFc[i], a->Fc[i], m_fTransSpeed);
+					newQ[i] = dLinTerp(0, 1, oldQ[i], a->Q[i], m_fTransSpeed);
+					newG[i] = dLinTerp(0, 1, oldG[i], a->G[i], m_fTransSpeed);
+					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
+					oldFc[i] = newFc[i];
+					oldQ[i] = newQ[i];
+					oldG[i] = newG[i];
+				}
+				break;
+			case 1:
+				// e
+				for (int i = 0; i < 5; i++)
+				{
+					newFc[i] = dLinTerp(0, 1, oldFc[i], e->Fc[i], m_fTransSpeed);
+					newQ[i] = dLinTerp(0, 1, oldQ[i], e->Q[i], m_fTransSpeed);
+					newG[i] = dLinTerp(0, 1, oldG[i], e->G[i], m_fTransSpeed);
+					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
+					oldFc[i] = newFc[i];
+					oldQ[i] = newQ[i];
+					oldG[i] = newG[i];
+				}
+				break;
+			case 2:
+				// i
+				for (int c = 0; c < 5; c++)
+				{
+					Formants[c]->setBiquad(m_FiltType, i3->Fc[c], i3->Q[c], i3->G[c]);
+				}
+				break;
+			case 3:
+				// o
+				for (int i = 0; i < 5; i++)
+				{
+					Formants[i]->setBiquad(m_FiltType, o3->Fc[i], o3->Q[i], o3->G[i]);
+				}
+				break;
+			case 4:
+				// u
+				for (int i = 0; i < 5; i++)
+				{
+					Formants[i]->setBiquad(m_FiltType, u3->Fc[i], u3->Q[i], u3->G[i]);
+				}
+				break;
 			}
-			break;
-		case 3:
-			// o
-			for (int i = 0; i < 5; i++)
-			{
-				Formants[i]->setBiquad(m_FiltType, o->Fc[i], o->Q[i], o->G[i]);
-			}
-			break;
-		case 4:
-			// u
-			for (int i = 0; i < 5; i++)
-			{
-				Formants[i]->setBiquad(m_FiltType, u->Fc[i], u->Q[i], u->G[i]);
-			}
-			break;
 		}
 
 		switch (m_fFilterStyle)
@@ -987,6 +1168,43 @@ bool __stdcall CFormantFilter::initUI()
 	ui4->uFluxCapControl[0] = 0; ui4->uFluxCapControl[1] = 0; ui4->uFluxCapControl[2] = 0; ui4->uFluxCapControl[3] = 0; ui4->uFluxCapControl[4] = 0; ui4->uFluxCapControl[5] = 0; ui4->uFluxCapControl[6] = 0; ui4->uFluxCapControl[7] = 0; ui4->uFluxCapControl[8] = 0; ui4->uFluxCapControl[9] = 0; ui4->uFluxCapControl[10] = 0; ui4->uFluxCapControl[11] = 0; ui4->uFluxCapControl[12] = 0; ui4->uFluxCapControl[13] = 0; ui4->uFluxCapControl[14] = 0; ui4->uFluxCapControl[15] = 0; ui4->uFluxCapControl[16] = 0; ui4->uFluxCapControl[17] = 0; ui4->uFluxCapControl[18] = 0; ui4->uFluxCapControl[19] = 0; ui4->uFluxCapControl[20] = 0; ui4->uFluxCapControl[21] = 0; ui4->uFluxCapControl[22] = 0; ui4->uFluxCapControl[23] = 0; ui4->uFluxCapControl[24] = 0; ui4->uFluxCapControl[25] = 0; ui4->uFluxCapControl[26] = 0; ui4->uFluxCapControl[27] = 0; ui4->uFluxCapControl[28] = 0; ui4->uFluxCapControl[29] = 0; ui4->uFluxCapControl[30] = 0; ui4->uFluxCapControl[31] = 0; ui4->uFluxCapControl[32] = 0; ui4->uFluxCapControl[33] = 0; ui4->uFluxCapControl[34] = 0; ui4->uFluxCapControl[35] = 0; ui4->uFluxCapControl[36] = 0; ui4->uFluxCapControl[37] = 0; ui4->uFluxCapControl[38] = 0; ui4->uFluxCapControl[39] = 0; ui4->uFluxCapControl[40] = 0; ui4->uFluxCapControl[41] = 0; ui4->uFluxCapControl[42] = 0; ui4->uFluxCapControl[43] = 0; ui4->uFluxCapControl[44] = 0; ui4->uFluxCapControl[45] = 0; ui4->uFluxCapControl[46] = 0; ui4->uFluxCapControl[47] = 0; ui4->uFluxCapControl[48] = 0; ui4->uFluxCapControl[49] = 0; ui4->uFluxCapControl[50] = 0; ui4->uFluxCapControl[51] = 0; ui4->uFluxCapControl[52] = 0; ui4->uFluxCapControl[53] = 0; ui4->uFluxCapControl[54] = 0; ui4->uFluxCapControl[55] = 0; ui4->uFluxCapControl[56] = 0; ui4->uFluxCapControl[57] = 0; ui4->uFluxCapControl[58] = 0; ui4->uFluxCapControl[59] = 0; ui4->uFluxCapControl[60] = 0; ui4->uFluxCapControl[61] = 0; ui4->uFluxCapControl[62] = 0; ui4->uFluxCapControl[63] = 0; 
 	ui4->fFluxCapData[0] = 0.000000; ui4->fFluxCapData[1] = 0.000000; ui4->fFluxCapData[2] = 0.000000; ui4->fFluxCapData[3] = 0.000000; ui4->fFluxCapData[4] = 0.000000; ui4->fFluxCapData[5] = 0.000000; ui4->fFluxCapData[6] = 0.000000; ui4->fFluxCapData[7] = 0.000000; ui4->fFluxCapData[8] = 0.000000; ui4->fFluxCapData[9] = 0.000000; ui4->fFluxCapData[10] = 0.000000; ui4->fFluxCapData[11] = 0.000000; ui4->fFluxCapData[12] = 0.000000; ui4->fFluxCapData[13] = 0.000000; ui4->fFluxCapData[14] = 0.000000; ui4->fFluxCapData[15] = 0.000000; ui4->fFluxCapData[16] = 0.000000; ui4->fFluxCapData[17] = 0.000000; ui4->fFluxCapData[18] = 0.000000; ui4->fFluxCapData[19] = 0.000000; ui4->fFluxCapData[20] = 0.000000; ui4->fFluxCapData[21] = 0.000000; ui4->fFluxCapData[22] = 0.000000; ui4->fFluxCapData[23] = 0.000000; ui4->fFluxCapData[24] = 0.000000; ui4->fFluxCapData[25] = 0.000000; ui4->fFluxCapData[26] = 0.000000; ui4->fFluxCapData[27] = 0.000000; ui4->fFluxCapData[28] = 0.000000; ui4->fFluxCapData[29] = 0.000000; ui4->fFluxCapData[30] = 0.000000; ui4->fFluxCapData[31] = 0.000000; ui4->fFluxCapData[32] = 0.000000; ui4->fFluxCapData[33] = 0.000000; ui4->fFluxCapData[34] = 0.000000; ui4->fFluxCapData[35] = 0.000000; ui4->fFluxCapData[36] = 0.000000; ui4->fFluxCapData[37] = 0.000000; ui4->fFluxCapData[38] = 0.000000; ui4->fFluxCapData[39] = 0.000000; ui4->fFluxCapData[40] = 0.000000; ui4->fFluxCapData[41] = 0.000000; ui4->fFluxCapData[42] = 0.000000; ui4->fFluxCapData[43] = 0.000000; ui4->fFluxCapData[44] = 0.000000; ui4->fFluxCapData[45] = 0.000000; ui4->fFluxCapData[46] = 0.000000; ui4->fFluxCapData[47] = 0.000000; ui4->fFluxCapData[48] = 0.000000; ui4->fFluxCapData[49] = 0.000000; ui4->fFluxCapData[50] = 0.000000; ui4->fFluxCapData[51] = 0.000000; ui4->fFluxCapData[52] = 0.000000; ui4->fFluxCapData[53] = 0.000000; ui4->fFluxCapData[54] = 0.000000; ui4->fFluxCapData[55] = 0.000000; ui4->fFluxCapData[56] = 0.000000; ui4->fFluxCapData[57] = 0.000000; ui4->fFluxCapData[58] = 0.000000; ui4->fFluxCapData[59] = 0.000000; ui4->fFluxCapData[60] = 0.000000; ui4->fFluxCapData[61] = 0.000000; ui4->fFluxCapData[62] = 0.000000; ui4->fFluxCapData[63] = 0.000000; 
 	uiCtrls.push_back(ui4);
+
+
+	m_fOctave = 0;
+	CUICtrl* ui5 = new CUICtrl;
+	ui5->uControlType = FILTER_CONTROL_CONTINUOUSLY_VARIABLE;
+	ui5->uControlId = 5;
+	ui5->bLogSlider = false;
+	ui5->bExpSlider = false;
+	ui5->fUserDisplayDataLoLimit = 0.000000;
+	ui5->fUserDisplayDataHiLimit = 2.000000;
+	ui5->uUserDataType = intData;
+	ui5->fInitUserIntValue = 0.000000;
+	ui5->fInitUserFloatValue = 0;
+	ui5->fInitUserDoubleValue = 0;
+	ui5->fInitUserUINTValue = 0;
+	ui5->m_pUserCookedIntData = &m_fOctave;
+	ui5->m_pUserCookedFloatData = NULL;
+	ui5->m_pUserCookedDoubleData = NULL;
+	ui5->m_pUserCookedUINTData = NULL;
+	ui5->cControlUnits = "";
+	ui5->cVariableName = "m_fOctave";
+	ui5->cEnumeratedList = "SEL1,SEL2,SEL3";
+	ui5->dPresetData[0] = 0.000000;ui5->dPresetData[1] = 0.000000;ui5->dPresetData[2] = 0.000000;ui5->dPresetData[3] = 0.000000;ui5->dPresetData[4] = 0.000000;ui5->dPresetData[5] = 0.000000;ui5->dPresetData[6] = 0.000000;ui5->dPresetData[7] = 0.000000;ui5->dPresetData[8] = 0.000000;ui5->dPresetData[9] = 0.000000;ui5->dPresetData[10] = 0.000000;ui5->dPresetData[11] = 0.000000;ui5->dPresetData[12] = 0.000000;ui5->dPresetData[13] = 0.000000;ui5->dPresetData[14] = 0.000000;ui5->dPresetData[15] = 0.000000;
+	ui5->cControlName = "Octave";
+	ui5->bOwnerControl = false;
+	ui5->bMIDIControl = false;
+	ui5->uMIDIControlCommand = 176;
+	ui5->uMIDIControlName = 3;
+	ui5->uMIDIControlChannel = 0;
+	ui5->nGUIRow = nIndexer++;
+	ui5->nGUIColumn = -1;
+	ui5->bEnableParamSmoothing = false;
+	ui5->fSmoothingTimeInMs = 100.00;
+	ui5->uControlTheme[0] = 0; ui5->uControlTheme[1] = 0; ui5->uControlTheme[2] = 0; ui5->uControlTheme[3] = 0; ui5->uControlTheme[4] = 0; ui5->uControlTheme[5] = 0; ui5->uControlTheme[6] = 0; ui5->uControlTheme[7] = 0; ui5->uControlTheme[8] = 0; ui5->uControlTheme[9] = 0; ui5->uControlTheme[10] = 0; ui5->uControlTheme[11] = 0; ui5->uControlTheme[12] = 0; ui5->uControlTheme[13] = 0; ui5->uControlTheme[14] = 0; ui5->uControlTheme[15] = 0; ui5->uControlTheme[16] = 2; ui5->uControlTheme[17] = 0; ui5->uControlTheme[18] = 0; ui5->uControlTheme[19] = 0; ui5->uControlTheme[20] = 0; ui5->uControlTheme[21] = 0; ui5->uControlTheme[22] = 0; ui5->uControlTheme[23] = 0; ui5->uControlTheme[24] = 0; ui5->uControlTheme[25] = 0; ui5->uControlTheme[26] = 0; ui5->uControlTheme[27] = 0; ui5->uControlTheme[28] = 0; ui5->uControlTheme[29] = 0; ui5->uControlTheme[30] = 0; ui5->uControlTheme[31] = 0; 
+	ui5->uFluxCapControl[0] = 0; ui5->uFluxCapControl[1] = 0; ui5->uFluxCapControl[2] = 0; ui5->uFluxCapControl[3] = 0; ui5->uFluxCapControl[4] = 0; ui5->uFluxCapControl[5] = 0; ui5->uFluxCapControl[6] = 0; ui5->uFluxCapControl[7] = 0; ui5->uFluxCapControl[8] = 0; ui5->uFluxCapControl[9] = 0; ui5->uFluxCapControl[10] = 0; ui5->uFluxCapControl[11] = 0; ui5->uFluxCapControl[12] = 0; ui5->uFluxCapControl[13] = 0; ui5->uFluxCapControl[14] = 0; ui5->uFluxCapControl[15] = 0; ui5->uFluxCapControl[16] = 0; ui5->uFluxCapControl[17] = 0; ui5->uFluxCapControl[18] = 0; ui5->uFluxCapControl[19] = 0; ui5->uFluxCapControl[20] = 0; ui5->uFluxCapControl[21] = 0; ui5->uFluxCapControl[22] = 0; ui5->uFluxCapControl[23] = 0; ui5->uFluxCapControl[24] = 0; ui5->uFluxCapControl[25] = 0; ui5->uFluxCapControl[26] = 0; ui5->uFluxCapControl[27] = 0; ui5->uFluxCapControl[28] = 0; ui5->uFluxCapControl[29] = 0; ui5->uFluxCapControl[30] = 0; ui5->uFluxCapControl[31] = 0; ui5->uFluxCapControl[32] = 0; ui5->uFluxCapControl[33] = 0; ui5->uFluxCapControl[34] = 0; ui5->uFluxCapControl[35] = 0; ui5->uFluxCapControl[36] = 0; ui5->uFluxCapControl[37] = 0; ui5->uFluxCapControl[38] = 0; ui5->uFluxCapControl[39] = 0; ui5->uFluxCapControl[40] = 0; ui5->uFluxCapControl[41] = 0; ui5->uFluxCapControl[42] = 0; ui5->uFluxCapControl[43] = 0; ui5->uFluxCapControl[44] = 0; ui5->uFluxCapControl[45] = 0; ui5->uFluxCapControl[46] = 0; ui5->uFluxCapControl[47] = 0; ui5->uFluxCapControl[48] = 0; ui5->uFluxCapControl[49] = 0; ui5->uFluxCapControl[50] = 0; ui5->uFluxCapControl[51] = 0; ui5->uFluxCapControl[52] = 0; ui5->uFluxCapControl[53] = 0; ui5->uFluxCapControl[54] = 0; ui5->uFluxCapControl[55] = 0; ui5->uFluxCapControl[56] = 0; ui5->uFluxCapControl[57] = 0; ui5->uFluxCapControl[58] = 0; ui5->uFluxCapControl[59] = 0; ui5->uFluxCapControl[60] = 0; ui5->uFluxCapControl[61] = 0; ui5->uFluxCapControl[62] = 0; ui5->uFluxCapControl[63] = 0; 
+	ui5->fFluxCapData[0] = 0.000000; ui5->fFluxCapData[1] = 0.000000; ui5->fFluxCapData[2] = 0.000000; ui5->fFluxCapData[3] = 0.000000; ui5->fFluxCapData[4] = 0.000000; ui5->fFluxCapData[5] = 0.000000; ui5->fFluxCapData[6] = 0.000000; ui5->fFluxCapData[7] = 0.000000; ui5->fFluxCapData[8] = 0.000000; ui5->fFluxCapData[9] = 0.000000; ui5->fFluxCapData[10] = 0.000000; ui5->fFluxCapData[11] = 0.000000; ui5->fFluxCapData[12] = 0.000000; ui5->fFluxCapData[13] = 0.000000; ui5->fFluxCapData[14] = 0.000000; ui5->fFluxCapData[15] = 0.000000; ui5->fFluxCapData[16] = 0.000000; ui5->fFluxCapData[17] = 0.000000; ui5->fFluxCapData[18] = 0.000000; ui5->fFluxCapData[19] = 0.000000; ui5->fFluxCapData[20] = 0.000000; ui5->fFluxCapData[21] = 0.000000; ui5->fFluxCapData[22] = 0.000000; ui5->fFluxCapData[23] = 0.000000; ui5->fFluxCapData[24] = 0.000000; ui5->fFluxCapData[25] = 0.000000; ui5->fFluxCapData[26] = 0.000000; ui5->fFluxCapData[27] = 0.000000; ui5->fFluxCapData[28] = 0.000000; ui5->fFluxCapData[29] = 0.000000; ui5->fFluxCapData[30] = 0.000000; ui5->fFluxCapData[31] = 0.000000; ui5->fFluxCapData[32] = 0.000000; ui5->fFluxCapData[33] = 0.000000; ui5->fFluxCapData[34] = 0.000000; ui5->fFluxCapData[35] = 0.000000; ui5->fFluxCapData[36] = 0.000000; ui5->fFluxCapData[37] = 0.000000; ui5->fFluxCapData[38] = 0.000000; ui5->fFluxCapData[39] = 0.000000; ui5->fFluxCapData[40] = 0.000000; ui5->fFluxCapData[41] = 0.000000; ui5->fFluxCapData[42] = 0.000000; ui5->fFluxCapData[43] = 0.000000; ui5->fFluxCapData[44] = 0.000000; ui5->fFluxCapData[45] = 0.000000; ui5->fFluxCapData[46] = 0.000000; ui5->fFluxCapData[47] = 0.000000; ui5->fFluxCapData[48] = 0.000000; ui5->fFluxCapData[49] = 0.000000; ui5->fFluxCapData[50] = 0.000000; ui5->fFluxCapData[51] = 0.000000; ui5->fFluxCapData[52] = 0.000000; ui5->fFluxCapData[53] = 0.000000; ui5->fFluxCapData[54] = 0.000000; ui5->fFluxCapData[55] = 0.000000; ui5->fFluxCapData[56] = 0.000000; ui5->fFluxCapData[57] = 0.000000; ui5->fFluxCapData[58] = 0.000000; ui5->fFluxCapData[59] = 0.000000; ui5->fFluxCapData[60] = 0.000000; ui5->fFluxCapData[61] = 0.000000; ui5->fFluxCapData[62] = 0.000000; ui5->fFluxCapData[63] = 0.000000; 
+	uiCtrls.push_back(ui5);
 
 
 	for (int i = 0; i < uiCtrls.size(); i++)

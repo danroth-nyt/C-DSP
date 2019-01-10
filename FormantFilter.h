@@ -127,7 +127,7 @@ public:
 	bool interpolateActive = false;
 	Biquad* Formants[5] = { F1,F2,F3,F4,F5 };
 	float processCascade(float depth, float input, int currentF = 1);
-	Vowel *a, *e, *i, *o, *u;
+	Vowel *a1, *a2, *a3, *e1, *e2, *e3, *i1, *i2, *i3, *o1, *o2, *o3, *u1, *u2, *u3;
 	void createVowels();
 	double oldFc[5];
 	double oldQ[5];
@@ -145,6 +145,7 @@ public:
 	int m_fDepth;
 	int m_fFilterStyle;
 	float m_fTransSpeed;
+	int m_fOctave;
 
 	// **--0x1A7F--**
 	// ------------------------------------------------------------------------------- //
