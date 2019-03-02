@@ -1,4 +1,4 @@
-# Project Title
+# IIR Vowel Formant Filter
 
 One Paragraph of project description goes here
 
