@@ -4,15 +4,11 @@ This C++ Vowel Formant Filter consists of a series of IIR filters in different c
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+You can download RackAFX 
 
 ### Installing
 
@@ -36,16 +32,12 @@ End with an example of getting some data out of the system or using it for a lit
 
 Explain how to run the automated tests for this system
 
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
 * [RackAFX](http://www.willpirkle.com/rackafx/) - Will Pirkle's audio IDE 
 * [Biquad C++ Code](http://www.earlevel.com/main/2012/11/26/biquad-c-source-code/) - Source code for generating and processing biquad IIR filters
 
-Redmon, N. (2012) Biquad C++ source code. Available at: http://www.earlevel.com/main/2012/11/26/biquad-c-source-code/ (Accessed: 28 November, 2018).
+  Redmon, N. (2012) Biquad C++ source code. Available at: http://www.earlevel.com/main/2012/11/26/biquad-c-source-code/ (Accessed: 28     November, 2018).
 
 ## Versioning
 
