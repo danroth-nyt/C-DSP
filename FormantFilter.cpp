@@ -248,49 +248,6 @@ bool __stdcall CFormantFilter::prepareForPlay()
 	return CPlugIn::prepareForPlay();
 }
 
-/*void CFormantFilter::evaluateVowel()
-{
-	switch (m_fVowel)
-	{
-	case 0:
-		// a
-		for (int i = 0; i < 5; i++)
-		{
-			Formants[i]->setBiquad(m_FiltType, a->Fc[i], a->Q[i], a->G[i]);
-		}
-		break;
-	case 1:
-		// e
-		for (int i = 0; i < 5; i++)
-		{
-			Formants[i]->setBiquad(m_FiltType, e->Fc[i], e->Q[i], e->G[i]);
-		}
-		break;
-	case 2:
-		// i
-		for (int c = 0; c < 5; c++)
-		{
-			Formants[c]->setBiquad(m_FiltType, i->Fc[c], i->Q[c], i->G[c]);
-		}
-		break;
-	case 3:
-		// o
-		for (int i = 0; i < 5; i++)
-		{
-			Formants[i]->setBiquad(m_FiltType, o->Fc[i], o->Q[i], o->G[i]);
-		}
-		break;
-	case 4:
-		// u
-		for (int i = 0; i < 5; i++)
-		{
-			Formants[i]->setBiquad(m_FiltType, u->Fc[i], u->Q[i], u->G[i]);
-		}
-		break;
-	}
-		
-}*/
-
 
 
 /* processAudioFrame
