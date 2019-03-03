@@ -33,7 +33,7 @@ Test different vowels, use different combinations of filter quantity and cascade
 
 Version 1.0
 
-# Current Concerns/Issues
+### Current Concerns/Issues
 
 * A major element that is missing is a way to implement linear interpolation, although this proved difficult as there is no immediately intuitive time domain representation in the process of audio filtering.  Research has shown that linear interpolation is the simplest and most effective way to interpolate between speech vowels.
 
