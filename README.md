@@ -1,6 +1,6 @@
 # IIR Vowel Formant Filter
 
-One Paragraph of project description goes here
+This C++ Vowel Formant Filter consists of a series of IIR filters in different configurations for testing effective formant synthesis using the source/model theory.  The plugin has filter presets for the 5 basic vowels (a, e, i, o, u) in 3 octaves (bass, tenor, and alto).  The formant filters can be placed in either cascade or parallel and the number of active formants can altered from 0 to 5 filters.  The code is meant to accompany my paper [Proposal for Research, Design, and Evaluation of a Formant Filter](https://sway.office.com/6rPoUHP4RIM2MkBz?ref=Link).
 
 ## Getting Started
 
@@ -42,8 +42,10 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [RackAFX](http://www.dropwizard.io/1.0.2/docs/) - audio IDE 
-* [Maven](https://maven.apache.org/) - Dependency Management
+* [RackAFX](http://www.willpirkle.com/rackafx/) - Will Pirkle's audio IDE 
+* [Biquad C++ Code](http://www.earlevel.com/main/2012/11/26/biquad-c-source-code/) - Source code for generating and processing biquad IIR filters
+
+Redmon, N. (2012) Biquad C++ source code. Available at: http://www.earlevel.com/main/2012/11/26/biquad-c-source-code/ (Accessed: 28 November, 2018).
 
 ## Versioning
 
