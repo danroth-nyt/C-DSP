@@ -8,29 +8,19 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-You can download RackAFX 
+* A DAW that can read VST plugins
+* A sound source such as the 200 Hz buzz tone that is provided here for speech synthesis emulation.
+* RackAFX (optional)
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+Method 1: Place the FormantFilter.dll into the VST plugin folder used by your DAW and scan for new plugins.  Open it up as an effect on an audio track and either use the 200 Hz buzz source provided or your own sound material.
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+Method 2: The code can be placed into a RackAFX project and a sound source can be imported and tested by compiling inside the development environment.
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+Test different vowels, use different combinations of filter quantity and cascade or parallel filter configurations.  Different octaves can be tested to examine the effects of reducing or increasing number of filters or configuration.
 
 ## Built With
 
@@ -42,6 +32,12 @@ Explain how to run the automated tests for this system
 ## Versioning
 
 Version 1.0
+
+# Current Concerns/Issues
+
+* A major element that is missing is a way to implement linear interpolation, although this proved difficult as there is no time domain representation in the process of audio filtering.  Research has shown that linear interpolation is the simplest and most effective way to interpolate between speech vowels
+
+* Code cleanup and optimization
 
 ## Authors
 
