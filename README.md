@@ -14,9 +14,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
-Method 1: Place the FormantFilter.dll into the VST plugin folder used by your DAW and scan for new plugins.  Open it up as an effect on an audio track and either use the 200 Hz buzz source provided or your own sound material.
+* Method 1: Place the FormantFilter.dll into the VST plugin folder used by your DAW and scan for new plugins.  Open it up as an effect on an audio track and either use the 200 Hz buzz source provided or your own sound material.
 
-Method 2: The code can be placed into a RackAFX project and a sound source can be imported and tested by compiling inside the development environment.
+* Method 2: The code can be placed into a RackAFX project and a sound source can be imported and tested by compiling inside the development environment.
 
 ## Running the tests
 
