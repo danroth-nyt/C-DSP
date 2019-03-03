@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* A DAW that can read VST plugins
+* A DAW that can use VST plugins
 * A sound source such as the 200 Hz buzz tone that is provided here for speech synthesis emulation.
 * RackAFX (optional)
 
