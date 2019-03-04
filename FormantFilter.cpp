@@ -236,20 +236,6 @@ bool __stdcall CFormantFilter::prepareForPlay()
 	return CPlugIn::prepareForPlay();
 }
 
-float CFormantFilter::countUp(float increment)
-{
-	if (start < end)
-	{
-		start += increment;
-		return start;
-	}
-	else
-	{
-		return end;
-	}
-}
-
-
 
 bool __stdcall CFormantFilter::processAudioFrame(float* pInputBuffer, float* pOutputBuffer, UINT uNumInputChannels, UINT uNumOutputChannels)
 {
