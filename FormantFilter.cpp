@@ -35,7 +35,7 @@ CFormantFilter::CFormantFilter()
 	m_bEnableMIDIControl = true;		// by default this is enabled
 
 	// DO NOT CHANGE let RackAFX change it for you; use Edit Project to alter
-	m_bUseCustomVSTGUI = true;
+	m_bUseCustomVSTGUI = false;
 
 	// output only - SYNTH - plugin DO NOT CHANGE let RackAFX change it for you; use Edit Project to alter
 	m_bOutputOnlyPlugIn = false;
@@ -127,19 +127,19 @@ void CFormantFilter::createVowels() {
 		new double[5]{ 10.0, 9.38, 24.0, 21.67, 24.17 },
 		new double[5]{ 0.0, -11.0, -21.0, -20.0, -40.0 });
 	o2 = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
-		750.0 / m_nSampleRate,
-		2400.0 / m_nSampleRate,
+		800.0 / m_nSampleRate,
 		2600.0 / m_nSampleRate,
-		2900.0 / m_nSampleRate },
-		new double[5]{ 10.0, 9.38, 24.0, 21.67, 24.17 },
-		new double[5]{ 0.0, -11.0, -21.0, -20.0, -40.0 });
-	o3 = new Vowel(new double[5]{ 400.0 / m_nSampleRate,
-		750.0 / m_nSampleRate,
-		2400.0 / m_nSampleRate,
-		2600.0 / m_nSampleRate,
-		2900.0 / m_nSampleRate },
-		new double[5]{ 10.0, 9.38, 24.0, 21.67, 24.17 },
-		new double[5]{ 0.0, -11.0, -21.0, -20.0, -40.0 });
+		2800.0 / m_nSampleRate,
+		3000.0 / m_nSampleRate },
+		new double[5]{ 10.0, 10.0, 26.0, 23.33, 25.0 },
+		new double[5]{ 0.0, -10.0, -12.0, -12.0, -26.0 });
+	o3 = new Vowel(new double[5]{ 450.0 / m_nSampleRate,
+		800.0 / m_nSampleRate,
+		2830.0 / m_nSampleRate,
+		3500.0 / m_nSampleRate,
+		4950.0 / m_nSampleRate },
+		new double[5]{ 6.43, 10.0, 28.3, 26.92, 36.67 },
+		new double[5]{ 0.0, -9.0, -16.0, -28.0, -55.0 });
 	u1 = new Vowel(new double[5]{ 350.0 / m_nSampleRate,
 		600.0 / m_nSampleRate,
 		2400.0 / m_nSampleRate,
@@ -149,18 +149,18 @@ void CFormantFilter::createVowels() {
 		new double[5]{ 0.0, -20.0, -32.0, -28.0, -36.0 });
 	u2 = new Vowel(new double[5]{ 350.0 / m_nSampleRate,
 		600.0 / m_nSampleRate,
-		2400.0 / m_nSampleRate,
-		2675.0 / m_nSampleRate,
-		2950.0 / m_nSampleRate },
-		new double[5]{ 8.75, 7.5, 24.0, 22.29, 24.58 },
-		new double[5]{ 0.0, -20.0, -32.0, -28.0, -36.0 });
-	u3 = new Vowel(new double[5]{ 350.0 / m_nSampleRate,
-		600.0 / m_nSampleRate,
-		2400.0 / m_nSampleRate,
-		2675.0 / m_nSampleRate,
-		2950.0 / m_nSampleRate },
-		new double[5]{ 8.75, 7.5, 24.0, 22.29, 24.58 },
-		new double[5]{ 0.0, -20.0, -32.0, -28.0, -36.0 });
+		2700.0 / m_nSampleRate,
+		2900.0 / m_nSampleRate,
+		3300.0 / m_nSampleRate },
+		new double[5]{ 8.75, 10.0, 27.0, 24.17, 27.5 },
+		new double[5]{ 0.0, -20.0, -17.0, -14.0, -26.0 });
+	u3 = new Vowel(new double[5]{ 325.0 / m_nSampleRate,
+		700.0 / m_nSampleRate,
+		2530.0 / m_nSampleRate,
+		3500.0 / m_nSampleRate,
+		4950.0 / m_nSampleRate },
+		new double[5]{ 6.5, 11.67, 14.88, 19.44, 24.75 },
+		new double[5]{ 0.0, -12.0, -30.0, -40.0, -64.0 });
 }
 
 /* destructor()
@@ -190,14 +190,7 @@ initialize()
 */
 bool __stdcall CFormantFilter::initialize()
 {
-	// Add your code here
-	for (int i = 0; i < 5; i++)
-	{
-		Formants[i]->setBiquad(m_FiltType, a1->Fc[i], a1->Q[i], a1->G[i]);
-		oldFc[i] = a1->Fc[i];
-		oldQ[i] = a1->Q[i];
-		oldG[i] = a1->G[i];
-	}
+
 	highShelf->setBiquad(bq_type_highshelf, 50.0 / m_nSampleRate, 0.5, -26.0);
 	return true;
 }
@@ -240,38 +233,21 @@ void __stdcall CFormantFilter::processRackAFXMessage(UINT uMessage, PROCESS_INFO
 */
 bool __stdcall CFormantFilter::prepareForPlay()
 {
-	// Add your code here:
-
-	//evaluateVowel();
-
-	// --- let base class do its thing
 	return CPlugIn::prepareForPlay();
 }
 
-
-
-/* processAudioFrame
-
-// ALL VALUES IN AND OUT ON THE RANGE OF -1.0 TO + 1.0
-
-LEFT INPUT = pInputBuffer[0];
-RIGHT INPUT = pInputBuffer[1]
-
-LEFT OUTPUT = pInputBuffer[0]
-RIGHT OUTPUT = pOutputBuffer[1]
-
-HOST INFORMATION is available in m_HostProcessInfo:
-
-// --- for RackAFX and all derivative projects:
-m_HostProcessInfo.uAbsoluteSampleBufferIndex = sample index of top of current audio buffer
-m_HostProcessInfo.dAbsoluteSampleBufferTime = time (sec) of sample in top of current audio buffer
-m_HostProcessInfo.dBPM = Host Tempo setting in BPM
-m_HostProcessInfo.fTimeSigNumerator = Host Time Signature Numerator (if supported by host)
-m_HostProcessInfo.uTimeSigDenomintor = Host Time Signature Denominator (if supported by host)
-
-// --- see the definition of HOST_INFO in the pluginconstants.h file for variables that are
-//     unique to AU, AAX and VST for use in your ported projects!
-*/
+float CFormantFilter::countUp(float increment)
+{
+	if (start < end)
+	{
+		start += increment;
+		return start;
+	}
+	else
+	{
+		return end;
+	}
+}
 
 
 
@@ -342,13 +318,11 @@ bool __stdcall CFormantFilter::userInterfaceChange(int nControlIndex)
 		case 0:
 		{
 			//Filter Type
-			//evaluateVowel();
 			break;
 		}
 		case 1:
 		{
 			//Vowel
-			//evaluateVowel();
 			break;
 		}
 		case 2:
@@ -366,6 +340,11 @@ bool __stdcall CFormantFilter::userInterfaceChange(int nControlIndex)
 			//Transition Speed
 			if (m_fTransSpeed > 0.5)
 				m_fTransSpeed = 1.0;
+			break;
+		}
+		case 5:
+		{
+			//Octave
 			break;
 		}
 		default:
@@ -389,9 +368,13 @@ bool __stdcall CFormantFilter::checkUpdateGUI(int nControlIndex, float fValue, C
 	{
 		case 0:
 		{
-			// return true; // if update needed
+			//return true; // if update needed
 			// break;		// if no update needed
+			// alter text
+		
+			
 		}
+
 
 		default:
 			break;
@@ -513,6 +496,9 @@ bool __stdcall CFormantFilter::processRackAFXAudioBuffer(float* pInputBuffer, fl
 	return true;
 }
 
+/* processCascade
+	Recursive function to place formant filters in cascade by multiplying their outputs.
+*/
 float CFormantFilter::processCascade(float depth, float input, int currentF) {
 
 	if (depth == 1) {
@@ -599,26 +585,14 @@ bool __stdcall CFormantFilter::processVSTAudioBuffer(float** inBuffer, float** o
 				// a
 				for (int i = 0; i < 5; i++)
 				{
-					newFc[i] = dLinTerp(0, 1, oldFc[i], a->Fc[i], m_fTransSpeed);
-					newQ[i] = dLinTerp(0, 1, oldQ[i], a->Q[i], m_fTransSpeed);
-					newG[i] = dLinTerp(0, 1, oldG[i], a->G[i], m_fTransSpeed);
-					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
-					oldFc[i] = newFc[i];
-					oldQ[i] = newQ[i];
-					oldG[i] = newG[i];
+					Formants[i]->setBiquad(m_FiltType, a1->Fc[i], a1->Q[i], a1->G[i]);
 				}
 				break;
 			case 1:
 				// e
 				for (int i = 0; i < 5; i++)
 				{
-					newFc[i] = dLinTerp(0, 1, oldFc[i], e->Fc[i], m_fTransSpeed);
-					newQ[i] = dLinTerp(0, 1, oldQ[i], e->Q[i], m_fTransSpeed);
-					newG[i] = dLinTerp(0, 1, oldG[i], e->G[i], m_fTransSpeed);
-					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
-					oldFc[i] = newFc[i];
-					oldQ[i] = newQ[i];
-					oldG[i] = newG[i];
+					Formants[i]->setBiquad(m_FiltType, e1->Fc[i], e1->Q[i], e1->G[i]);
 				}
 				break;
 			case 2:
@@ -653,26 +627,14 @@ bool __stdcall CFormantFilter::processVSTAudioBuffer(float** inBuffer, float** o
 				// a
 				for (int i = 0; i < 5; i++)
 				{
-					newFc[i] = dLinTerp(0, 1, oldFc[i], a->Fc[i], m_fTransSpeed);
-					newQ[i] = dLinTerp(0, 1, oldQ[i], a->Q[i], m_fTransSpeed);
-					newG[i] = dLinTerp(0, 1, oldG[i], a->G[i], m_fTransSpeed);
-					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
-					oldFc[i] = newFc[i];
-					oldQ[i] = newQ[i];
-					oldG[i] = newG[i];
+					Formants[i]->setBiquad(m_FiltType, a2->Fc[i], a2->Q[i], a2->G[i]);
 				}
 				break;
 			case 1:
 				// e
 				for (int i = 0; i < 5; i++)
 				{
-					newFc[i] = dLinTerp(0, 1, oldFc[i], e->Fc[i], m_fTransSpeed);
-					newQ[i] = dLinTerp(0, 1, oldQ[i], e->Q[i], m_fTransSpeed);
-					newG[i] = dLinTerp(0, 1, oldG[i], e->G[i], m_fTransSpeed);
-					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
-					oldFc[i] = newFc[i];
-					oldQ[i] = newQ[i];
-					oldG[i] = newG[i];
+					Formants[i]->setBiquad(m_FiltType, e2->Fc[i], e2->Q[i], e2->G[i]);
 				}
 				break;
 			case 2:
@@ -707,26 +669,14 @@ bool __stdcall CFormantFilter::processVSTAudioBuffer(float** inBuffer, float** o
 				// a
 				for (int i = 0; i < 5; i++)
 				{
-					newFc[i] = dLinTerp(0, 1, oldFc[i], a->Fc[i], m_fTransSpeed);
-					newQ[i] = dLinTerp(0, 1, oldQ[i], a->Q[i], m_fTransSpeed);
-					newG[i] = dLinTerp(0, 1, oldG[i], a->G[i], m_fTransSpeed);
-					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
-					oldFc[i] = newFc[i];
-					oldQ[i] = newQ[i];
-					oldG[i] = newG[i];
+					Formants[i]->setBiquad(m_FiltType, a3->Fc[i], a3->Q[i], a3->G[i]);
 				}
 				break;
 			case 1:
 				// e
 				for (int i = 0; i < 5; i++)
 				{
-					newFc[i] = dLinTerp(0, 1, oldFc[i], e->Fc[i], m_fTransSpeed);
-					newQ[i] = dLinTerp(0, 1, oldQ[i], e->Q[i], m_fTransSpeed);
-					newG[i] = dLinTerp(0, 1, oldG[i], e->G[i], m_fTransSpeed);
-					Formants[i]->setBiquad(m_FiltType, newFc[i], newQ[i], newG[i]);
-					oldFc[i] = newFc[i];
-					oldQ[i] = newQ[i];
-					oldG[i] = newG[i];
+					Formants[i]->setBiquad(m_FiltType, e3->Fc[i], e3->Q[i], e3->G[i]);
 				}
 				break;
 			case 2:
@@ -874,60 +824,6 @@ void* __stdcall CFormantFilter::showGUI(void* pInfo)
 	void* result = CPlugIn::showGUI(pInfo);
 	if(result)
 		return result;
-
-	/* Uncomment if using advanced GUI API: see www.willpirkle.com for details and sample code
-	// --- uncloak the info struct
-	VSTGUI_VIEW_INFO* info = (VSTGUI_VIEW_INFO*)pInfo;
-	if(!info) return NULL;
-
-	switch(info->message)
-	{
-		case GUI_DID_OPEN:
-		{
-			return NULL;
-		}
-		case GUI_WILL_CLOSE:
-		{
-			return NULL;
-		}
-		case GUI_CUSTOMVIEW:
-		{
-			// --- create custom view, return a CView* cloaked as void* or NULL if not supported
-			return NULL;
-		}
-
-		case GUI_HAS_USER_CUSTOM:
-		{
-			// --- set this variable to true if you have a custom GUI
-			info->bHasUserCustomView = false;
-			return NULL;
-		}
-
-		// --- create your custom VSTGUI4 object using the CVSTGUIController (supplied),
-		//     a subclass of the CVSTGUIController that you supply, a VSTGUI4 object
-		//     that is derived at least from: VSTGUIEditorInterface, CControlListener, CBaseObject
-		//     see VSTGUIController.h for an example
-		//
-		//     open() sets the new size of the window in info->size
-		//     return a pointer to the newly created object
-		case GUI_USER_CUSTOM_OPEN:
-		{
-			return NULL;
-		}
-		// --- call the close() function and delete the controller object
-		case GUI_USER_CUSTOM_CLOSE:
-		{
-			return NULL;
-		}
-		// --- handle paint-specific timer stuff
-		case GUI_TIMER_PING:
-		{
-
-			return NULL;
-		}
-	} */
-
-	return NULL;
 }
 
 // --- DO NOT EDIT OR DELETE THIS FUNCTION ----------------------------------------------- //
@@ -1186,7 +1082,7 @@ bool __stdcall CFormantFilter::initUI()
 
 	m_nGUIType = -1;
 	m_nGUIThemeID = -1;
-	m_bUseCustomVSTGUI = true;
+	m_bUseCustomVSTGUI = false;
 
 	m_uControlTheme[0] = 0; m_uControlTheme[1] = 0; m_uControlTheme[2] = 0; m_uControlTheme[3] = 0; m_uControlTheme[4] = 0; m_uControlTheme[5] = 0; m_uControlTheme[6] = 0; m_uControlTheme[7] = 0; m_uControlTheme[8] = 0; m_uControlTheme[9] = 0; m_uControlTheme[10] = 0; m_uControlTheme[11] = 0; m_uControlTheme[12] = 0; m_uControlTheme[13] = 0; m_uControlTheme[14] = 0; m_uControlTheme[15] = 0; m_uControlTheme[16] = 0; m_uControlTheme[17] = 0; m_uControlTheme[18] = 0; m_uControlTheme[19] = 0; m_uControlTheme[20] = 0; m_uControlTheme[21] = 0; m_uControlTheme[22] = 0; m_uControlTheme[23] = 0; m_uControlTheme[24] = 0; m_uControlTheme[25] = 0; m_uControlTheme[26] = 0; m_uControlTheme[27] = 0; m_uControlTheme[28] = 0; m_uControlTheme[29] = 0; m_uControlTheme[30] = 0; m_uControlTheme[31] = 0; m_uControlTheme[32] = 0; m_uControlTheme[33] = 0; m_uControlTheme[34] = 0; m_uControlTheme[35] = 0; m_uControlTheme[36] = 0; m_uControlTheme[37] = 0; m_uControlTheme[38] = 0; m_uControlTheme[39] = 0; m_uControlTheme[40] = 0; m_uControlTheme[41] = 0; m_uControlTheme[42] = 0; m_uControlTheme[43] = 0; m_uControlTheme[44] = 0; m_uControlTheme[45] = 0; m_uControlTheme[46] = 0; m_uControlTheme[47] = 0; m_uControlTheme[48] = 0; m_uControlTheme[49] = 0; m_uControlTheme[50] = 0; m_uControlTheme[51] = 0; m_uControlTheme[52] = 0; m_uControlTheme[53] = 0; m_uControlTheme[54] = 0; m_uControlTheme[55] = 0; m_uControlTheme[56] = 0; m_uControlTheme[57] = 0; m_uControlTheme[58] = 0; m_uControlTheme[59] = 0; m_uControlTheme[60] = 0; m_uControlTheme[61] = 0; m_uControlTheme[62] = 0; m_uControlTheme[63] = 0; 
 

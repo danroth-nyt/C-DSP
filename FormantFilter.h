@@ -14,6 +14,8 @@
 #include "plugin.h"
 #include "Biquad.h"
 #include "Vowel.h"
+#include "../vstgui4/vstgui/vstgui.h" 
+#include "GUIViewAttributes.h"
 
 #ifndef M_PI
 #define M_PI       3.14159265358979323846
@@ -36,8 +38,6 @@ public:
 	//
 	// 1. One Time Initialization
 	CFormantFilter();
-
-	
 
 	// 2. One Time Destruction
 	virtual ~CFormantFilter(void);
@@ -113,9 +113,6 @@ public:
 	// --- declare an EventList interface
 	IMidiEventList* m_pMidiEventList;
 
-	// Add your code here: ----------------------------------------------------------- //
-
-
 	float fS;
 	Biquad *F1 = new Biquad();
 	Biquad *F2 = new Biquad();
@@ -123,8 +120,7 @@ public:
 	Biquad *F4 = new Biquad();
 	Biquad *F5 = new Biquad();
 	Biquad *highShelf = new Biquad();
-	void evaluateVowel();
-	bool interpolateActive = false;
+	float countUp(float increment);
 	Biquad* Formants[5] = { F1,F2,F3,F4,F5 };
 	float processCascade(float depth, float input, int currentF = 1);
 	Vowel *a1, *a2, *a3, *e1, *e2, *e3, *i1, *i2, *i3, *o1, *o2, *o3, *u1, *u2, *u3;
@@ -133,6 +129,9 @@ public:
 	double oldQ[5];
 	double oldG[5];
 	double newFc[5], newQ[5], newG[5];
+	float start = 0.f;
+	float end = 1.f;
+
 
 	// END OF USER CODE -------------------------------------------------------------- //
 
